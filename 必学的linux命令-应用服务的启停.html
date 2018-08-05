@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta name="baidu-site-verification" content="mFbtePyYMA" />
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="linux,java," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="我们java服务在linux服务器部署过程中，难免会遇到环境问题难以定位，下面我挑选几个常见的问题出来，进行相关命令的使用介绍。希望对大家有所帮助。 服务启动这些不赘述外置tomcat下的启动，很简单，找到bin目录下的sh脚本执行即可。今天聊一聊springboot项目启动的操作。 java -jar demo.jar 然而这样执行会导致日志占据终端页面，无法进行其他操作，只要控制台关闭，服务就">
+<meta name="keywords" content="linux,java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="必学的linux命令-应用服务的启停">
+<meta property="og:url" content="http://limic.top/必学的linux命令-应用服务的启停.html">
+<meta property="og:site_name" content="微醺小熊">
+<meta property="og:description" content="我们java服务在linux服务器部署过程中，难免会遇到环境问题难以定位，下面我挑选几个常见的问题出来，进行相关命令的使用介绍。希望对大家有所帮助。 服务启动这些不赘述外置tomcat下的启动，很简单，找到bin目录下的sh脚本执行即可。今天聊一聊springboot项目启动的操作。 java -jar demo.jar 然而这样执行会导致日志占据终端页面，无法进行其他操作，只要控制台关闭，服务就">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-05T03:43:01.712Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="必学的linux命令-应用服务的启停">
+<meta name="twitter:description" content="我们java服务在linux服务器部署过程中，难免会遇到环境问题难以定位，下面我挑选几个常见的问题出来，进行相关命令的使用介绍。希望对大家有所帮助。 服务启动这些不赘述外置tomcat下的启动，很简单，找到bin目录下的sh脚本执行即可。今天聊一聊springboot项目启动的操作。 java -jar demo.jar 然而这样执行会导致日志占据终端页面，无法进行其他操作，只要控制台关闭，服务就">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://limic.top/必学的linux命令-应用服务的启停.html"/>
+
+
+
+
+
+  <title>必学的linux命令-应用服务的启停 | 微醺小熊</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/findfz/"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png" alt="Fork me on GitHub"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">微醺小熊</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">个人博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://limic.top/必学的linux命令-应用服务的启停.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="微醺小熊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="微醺小熊">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">必学的linux命令-应用服务的启停</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-18T15:48:18+08:00">
+                2018-06-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我们java服务在linux服务器部署过程中，难免会遇到环境问题难以定位，下面我挑选几个常见的问题出来，进行相关命令的使用介绍。希望对大家有所帮助。</p>
+<h2 id="服务启动"><a href="#服务启动" class="headerlink" title="服务启动"></a>服务启动</h2><p>这些不赘述外置tomcat下的启动，很简单，找到bin目录下的sh脚本执行即可。今天聊一聊springboot项目启动的操作。</p>
+<pre><code>java -jar demo.jar
+</code></pre><p>然而这样执行会导致日志占据终端页面，无法进行其他操作，只要控制台关闭，服务就不能访问了，怎么办？答案是后台运行。<br>这里我要介绍的是&amp;和SCREEN命令。</p>
+<h3 id="amp"><a href="#amp" class="headerlink" title="&amp;"></a>&amp;</h3><pre><code>nohup java -jar demo.jar　&gt; log.file 2&gt;&amp;1　&amp;
+</code></pre><p>或　　</p>
+<pre><code>java -jar demo.jar &gt; log.file 2&gt;&amp;1 &amp;
+</code></pre><p>对于上面的命令的解释：</p>
+<p>１.nohup命令：如果你正在运行一个进程，而且你觉得在退出帐户时该进程还不会结束，那么可以使用nohup命令。该命令可以在你退出帐户/关闭终端之后继续运行相应的进程。</p>
+<p>２.bash 中 0、1、2 三个数字分别代表 STDIN_FILENO 、 STDOUT_FILENO 、STDERR_FILENO ，即标准输入（一般是键盘），标准输出（一般是显示屏，准确的说是用户终端控制台），标准错误（出错信息输出）。</p>
+<pre><code>数字    含义
+0     标准输入（一般是键盘）
+1     标准输出（一般是显示屏，准确的说是用户终端控制台）
+2     标准错误（出错信息输出）
+</code></pre><p>３.输入输出可以重定向，所谓重定向输入就是在命令中指定具体的输入来源，譬如 cat &lt; test.txt 将 test.txt 重定向为 cat 命令的输入源。输出重定向是指定具体的输出目标以替换默认的标准输出，譬如 ls &gt; 1.txt 将 ls 的结果从标准输出重定向为 1.txt 文本。<br>有时候会看到如 ls &gt;&gt; 1.txt这类的写法。 </p>
+<pre><code>&gt; 和 &gt;&gt; 的区别在于：&gt; 用于新建而 &gt;&gt; 用于追加。
+即 ls &gt; 1.txt 会新建一个 1.txt 文件并且将 ls 的内容输出到新建的 1.txt 中，
+而 ls &gt;&gt; 1.txt 则用在 1.txt 已经存在，而我们只是想将 ls 的内容追加到 1.txt 文本中的时候。 
+</code></pre><p>４.默认输入只有一个（0，STDIN_FILENO），而默认输出有两个（标准输出1 STDOUT_FILENO，标准错误2 STDERR_FILENO）。因此默认情况下，shell 输出的错误信息会被输出到 2，而普通输出信息会输出到 1 。但是某些情况下，我们希望在一个终端下看到所有的信息（包括标准输出信息和错误信息），要怎么办呢？ 非常直观的想法就是 2&gt;1 （将2重定向到1嘛），行不行呢？我们进行以下测试步骤：  </p>
+<pre><code>步骤        命令        解释
+1     mkdir test &amp;&amp; cd test     创建 test 文件夹并进入 test 目录
+2     touch a.txt b.c c    创建 a.txt、b.c、c 三个文件
+3     ls &gt; 1     按我们的猜测，这句应该是将 ls 的结果重定向到标准输出，因此效果和直接 ls 应该一样。但是实际这句执行后，标准输出中并没有任何信息
+4     ls    执行 3 之后再次 ls ，则会看到 test 文件夹中多了一个文件 1
+5     cat 1    查看文件1的内容，实际结果为：1 a.txt b.c c
+</code></pre><p>可见步骤 3 中 ls &gt; 1 并不是将 ls 的结果重定向为标准输出，而是将结果重定向到了一个文件 1 中。即 1 在此处不被解释为 STDOUT_FILENO，而是文件1。 </p>
+<p>５.2&gt;&amp;1 就是用来将标准错误 2 重定向到标准输出 1 中的。此处 1 前面的 &amp; 就是为了让 bash 将 1 解释成标准输出而不是文件 1 。至于最后一个 &amp; ，则是让 bash 在后台执行。</p>
+<h3 id="SCREEN"><a href="#SCREEN" class="headerlink" title="SCREEN"></a>SCREEN</h3><p>系统管理员经常需要SSH 或者telent 远程登录到Linux 服务器，经常运行一些需要很长时间才能完成的任务，比如系统备份、ftp 传输等等。通常情况下我们都是为每一个这样的任务开一个远程终端窗口，因为它们执行的时间太长了。必须等待它们执行完毕，在此期间不能关掉窗口或者断开连接，否则这个任务就会被杀掉，一切就半途而废了。</p>
+<p>Linux screen命令用于多重视窗管理程序，在这里也可以轻松应对我们springboot的项目部署。</p>
+<p>screen为多重视窗管理程序。此处所谓的视窗，是指一个全屏幕的文字模式画面。</p>
+<h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><pre><code>screen [-AmRvx -ls -wipe][-d &lt;作业名称&gt;][-h &lt;行数&gt;][-r &lt;作业名称&gt;][-s &lt;shell&gt;][-S &lt;作业名称&gt;]
+</code></pre><p>参数说明</p>
+<pre><code>-A 　将所有的视窗都调整为目前终端机的大小。
+-d&lt;作业名称&gt; 　将指定的screen作业离线。
+-h&lt;行数&gt; 　指定视窗的缓冲区行数。
+-m 　即使目前已在作业中的screen作业，仍强制建立新的screen作业。
+-r&lt;作业名称&gt; 　恢复离线的screen作业。
+-R 　先试图恢复离线的作业。若找不到离线的作业，即建立新的screen作业。
+-s&lt;shell&gt; 　指定建立新视窗时，所要执行的shell。
+-S&lt;作业名称&gt; 　指定screen作业的名称。
+-v 　显示版本信息。
+-x 　恢复之前离线的screen作业。
+-ls或--list 　显示目前所有的screen作业。
+-wipe 　检查目前所有的screen作业，并删除已经无法使用的screen作业。
+</code></pre><p>常用screen参数</p>
+<pre><code>screen -S yourname -&gt; 新建一个叫yourname的session
+screen -ls -&gt; 列出当前所有的session
+screen -r yourname -&gt; 回到yourname这个session
+screen -d yourname -&gt; 远程detach某个session
+screen -d -r yourname -&gt; 结束当前session并回到yourname这个session
+
+在每个screen session 下，所有命令都以 ctrl+a(C-a) 开始。
+C-a ? -&gt; 显示所有键绑定信息
+C-a c -&gt; 创建一个新的运行shell的窗口并切换到该窗口
+C-a n -&gt; Next，切换到下一个 window 
+C-a p -&gt; Previous，切换到前一个 window 
+C-a 0..9 -&gt; 切换到第 0..9 个 window
+Ctrl+a [Space] -&gt; 由视窗0循序切换到视窗9
+C-a C-a -&gt; 在两个最近使用的 window 间切换 
+C-a x -&gt; 锁住当前的 window，需用用户密码解锁
+C-a d -&gt; detach，暂时离开当前session，将目前的 screen session (可能含有多个 windows) 丢到后台执行，并会回到还没进 screen 时的状态，此时在 screen session 里，每个 window 内运行的 process (无论是前台/后台)都在继续执行，即使 logout 也不影响。 
+C-a z -&gt; 把当前session放到后台执行，用 shell 的 fg 命令则可回去。
+C-a w -&gt; 显示所有窗口列表
+C-a t -&gt; Time，显示当前时间，和系统的 load 
+C-a k -&gt; kill window，强行关闭当前的 window
+</code></pre><p>此处若用screen部署项目，步骤如下</p>
+<pre><code>1.yum install screen 安装screen
+2.screen -S demo 定义一个新窗口名称（可通过此窗口名称或者该窗口id恢复该窗口）
+3.java -jar demo.jar 启动项目
+4.C-a d 暂离当前会话，回到主窗口，让其后台运行
+</code></pre><h2 id="服务启动异常处理"><a href="#服务启动异常处理" class="headerlink" title="服务启动异常处理"></a>服务启动异常处理</h2><p>启动前我们首先要确认服务状态，若是已然启动再启动相同的应用，系统会提示异常，比如端口占用。</p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS"></a>PS</h3><p>Linux ps命令用于显示当前进程 (process) 的状态。</p>
+<h4 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h4><p>ps [options] [–help]</p>
+<h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><pre><code>-A 列出所有的行程
+-w 显示加宽可以显示较多的资讯
+-au 显示较详细的资讯
+-aux 显示所有包含其他使用者的行程
+USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND   
+USER: 进程拥有者   
+PID: pid   
+%CPU: 占用的 CPU 使用率   
+%MEM: 占用的记忆体使用率   
+VSZ: 占用的虚拟记忆体大小   
+RSS: 占用的记忆体大小   
+TTY: 终端的次要装置号码 (minor device number of tty)   
+STAT: 该行程的状态:   
+D: 不可中断的静止   
+R: 正在执行中   
+S: 静止状态   
+T: 暂停执行   
+Z: 不存在但暂时无法消除   
+W: 没有足够的记忆体分页可分配   
+&lt;: 高优先序的行程   
+N: 低优先序的行程   
+L: 有记忆体分页分配并锁在记忆体内 (即时系统或捱A I/O)   
+START: 行程开始时间   
+TIME: 执行的时间   
+COMMAND:所执行的指令   
+</code></pre><h4 id="常用命令解释"><a href="#常用命令解释" class="headerlink" title="常用命令解释"></a>常用命令解释</h4><pre><code>1）ps a 显示现行终端机下的所有程序，包括其他用户的程序。   
+2）ps -A 显示所有程序。   
+3）ps c 列出程序时，显示每个程序真正的指令名称，而不包含路径，参数或常驻服务的标示。   
+4）ps -e 此参数的效果和指定&quot;A&quot;参数相同。  例如：  ps -e|grep sshd  
+5）ps e 列出程序时，显示每个程序所使用的环境变量。   
+6）ps f 用ASCII字符显示树状结构，表达程序间的相互关系。   
+7）ps -H 显示树状结构，表示程序间的相互关系。   
+8）ps -N 显示所有的程序，除了执行ps指令终端机下的程序之外。   
+9）ps s 采用程序信号的格式显示程序状况。   
+10）ps S 列出程序时，包括已中断的子程序资料。   
+11）ps -t&lt;终端机编号&gt;   
+指定终端机编号，并列出属于该终端机的程序的状况。   
+12）ps u   
+以用户为主的格式来显示程序状况。   
+13）ps x   
+显示所有程序，不以终端机来区分。   
+最常用的方法是ps -aux,然后再利用一个管道符号导向到grep去查找特定的进程,然后再对特定的进程进行操作。 
+</code></pre><h3 id="LSOF"><a href="#LSOF" class="headerlink" title="LSOF"></a>LSOF</h3><p>lsof -i 用以显示符合条件的进程情况，lsof(list open files)是一个列出当前系统打开文件的工具。<br>查看某端口使用情况</p>
+<pre><code>[root@xiongzhan xiongzhan]# lsof -i:3306
+COMMAND  PID  USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+mysqld  2612 mysql   28u  IPv4  19255      0t0  TCP xiongzhan:mysql (LISTEN)
+</code></pre><h3 id="NETSTAT"><a href="#NETSTAT" class="headerlink" title="NETSTAT"></a>NETSTAT</h3><p>Netstat 命令用于显示各种网络相关信息，如网络连接，路由表，接口状态 (Interface Statistics)，masquerade 连接，多播成员 (Multicast Memberships) 等等。</p>
+<pre><code>-a (all)显示所有选项，netstat默认不显示LISTEN相关
+-t (tcp)仅显示tcp相关选项
+-u (udp)仅显示udp相关选项
+-n 拒绝显示别名，能显示数字的全部转化成数字。(重要)
+-l 仅列出有在 Listen (监听) 的服務状态
+
+-p 显示建立相关链接的程序名(macOS中表示协议 -p protocol)
+-r 显示路由信息，路由表
+-e 显示扩展信息，例如uid等
+-s 按各个协议进行统计 (重要)
+-c 每隔一个固定时间，执行该netstat命令。
+</code></pre><p>查看某端口使用情况</p>
+<pre><code>[root@xiongzhan xiongzhan]# netstat -apn|grep 3306
+tcp        0      0 101.236.17.36:3306      0.0.0.0:*               LISTEN      2612/mysqld   
+</code></pre><h3 id="KILL"><a href="#KILL" class="headerlink" title="KILL"></a>KILL</h3><p>Linux kill命令用于删除执行中的程序或工作。</p>
+<p>kill可将指定的信息送至程序。预设的信息为SIGTERM(15)，可将指定程序终止。若仍无法终止该程序，可使用SIGKILL(9)信息尝试强制删除程序。程序或工作的编号可利用ps指令或jobs指令查看。</p>
+<p>上面已经分别用两种方式获取了端口占用进程的pid，我们可以通过kill命令强行终止</p>
+<pre><code>[root@xiongzhan xiongzhan]# netstat -apn|grep 3306
+tcp        0      0 101.236.17.36:3306      0.0.0.0:*               LISTEN      2612/mysqld         
+[root@xiongzhan xiongzhan]# lsof -i:3306
+COMMAND  PID  USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+mysqld  2612 mysql   28u  IPv4  19255      0t0  TCP xiongzhan:mysql (LISTEN)
+[root@xiongzhan xiongzhan]# kill -9 2612
+</code></pre><h2 id="服务停止"><a href="#服务停止" class="headerlink" title="服务停止"></a>服务停止</h2><p>一般的应用服务都有其对应的启动和停止脚本，执行即可，若有异常无法停止则可以考虑用kill命令杀进程。</p>
+<p>常见的系统服务可以用service命令或者systemctl命令控制。</p>
+<p>以启动/停止mysql数据库应用为例　　</p>
+<pre><code>service mysql start|stop
+或者
+systemctl status start|stop（centos　7）
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/必学的linux命令-用户及文件权限.html" rel="next" title="必学的linux命令--用户及文件权限">
+                <i class="fa fa-chevron-left"></i> 必学的linux命令--用户及文件权限
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/docker-mysql使用文档.html" rel="prev" title="docker－mysql使用文档">
+                docker－mysql使用文档 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="微醺小熊" />
+            
+              <p class="site-author-name" itemprop="name">微醺小熊</p>
+              <p class="site-description motion-element" itemprop="description">学海无涯，回头是岸</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#服务启动"><span class="nav-number">1.</span> <span class="nav-text">服务启动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#amp"><span class="nav-number">1.1.</span> <span class="nav-text">&amp;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SCREEN"><span class="nav-number">1.2.</span> <span class="nav-text">SCREEN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法"><span class="nav-number">1.2.1.</span> <span class="nav-text">语法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务启动异常处理"><span class="nav-number">2.</span> <span class="nav-text">服务启动异常处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PS"><span class="nav-number">2.1.</span> <span class="nav-text">PS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法-1"><span class="nav-number">2.1.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参数"><span class="nav-number">2.1.2.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用命令解释"><span class="nav-number">2.1.3.</span> <span class="nav-text">常用命令解释</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LSOF"><span class="nav-number">2.2.</span> <span class="nav-text">LSOF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NETSTAT"><span class="nav-number">2.3.</span> <span class="nav-text">NETSTAT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KILL"><span class="nav-number">2.4.</span> <span class="nav-text">KILL</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务停止"><span class="nav-number">3.</span> <span class="nav-text">服务停止</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">微醺小熊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"pluginJsPath":"lib/","pluginRootPath":"live2dw/"});</script></body>
+</html>

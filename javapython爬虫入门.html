@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta name="baidu-site-verification" content="mFbtePyYMA" />
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,python,spider," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="什么是爬虫如果我们把互联网比作一张大的蜘蛛网，数据便是存放于蜘蛛网的各个节点，而爬虫就是一只小蜘蛛. 沿着网络抓取自己的猎物（数据）爬虫指的是：向网站发起请求，获取资源后分析并提取有用数据的程序. 从技术层面来说就是：通过程序模拟浏览器请求站点的行为，把站点返回的HTML代码/JSON数据/二进制数据（图片、视频）爬到本地，进而提取自己需要的数据，存放起来使用. 爬虫的基本流程用户获取网络数据的方">
+<meta name="keywords" content="java,python,spider">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java&#x2F;python爬虫入门">
+<meta property="og:url" content="http://limic.top/javapython爬虫入门.html">
+<meta property="og:site_name" content="微醺小熊">
+<meta property="og:description" content="什么是爬虫如果我们把互联网比作一张大的蜘蛛网，数据便是存放于蜘蛛网的各个节点，而爬虫就是一只小蜘蛛. 沿着网络抓取自己的猎物（数据）爬虫指的是：向网站发起请求，获取资源后分析并提取有用数据的程序. 从技术层面来说就是：通过程序模拟浏览器请求站点的行为，把站点返回的HTML代码/JSON数据/二进制数据（图片、视频）爬到本地，进而提取自己需要的数据，存放起来使用. 爬虫的基本流程用户获取网络数据的方">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-05T03:43:01.710Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java&#x2F;python爬虫入门">
+<meta name="twitter:description" content="什么是爬虫如果我们把互联网比作一张大的蜘蛛网，数据便是存放于蜘蛛网的各个节点，而爬虫就是一只小蜘蛛. 沿着网络抓取自己的猎物（数据）爬虫指的是：向网站发起请求，获取资源后分析并提取有用数据的程序. 从技术层面来说就是：通过程序模拟浏览器请求站点的行为，把站点返回的HTML代码/JSON数据/二进制数据（图片、视频）爬到本地，进而提取自己需要的数据，存放起来使用. 爬虫的基本流程用户获取网络数据的方">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://limic.top/javapython爬虫入门.html"/>
+
+
+
+
+
+  <title>java/python爬虫入门 | 微醺小熊</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/findfz/"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png" alt="Fork me on GitHub"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">微醺小熊</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">个人博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://limic.top/javapython爬虫入门.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="微醺小熊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="微醺小熊">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">java/python爬虫入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-09T14:36:27+08:00">
+                2018-06-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/爬虫/" itemprop="url" rel="index">
+                    <span itemprop="name">爬虫</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="什么是爬虫"><a href="#什么是爬虫" class="headerlink" title="什么是爬虫"></a>什么是爬虫</h2><p>如果我们把互联网比作一张大的蜘蛛网，数据便是存放于蜘蛛网的各个节点，而爬虫就是一只小蜘蛛.</p>
+<p>沿着网络抓取自己的猎物（数据）爬虫指的是：向网站发起请求，获取资源后分析并提取有用数据的程序.</p>
+<p>从技术层面来说就是：通过程序模拟浏览器请求站点的行为，把站点返回的HTML代码/JSON数据/二进制数据（图片、视频）爬到本地，进而提取自己需要的数据，存放起来使用.</p>
+<h2 id="爬虫的基本流程"><a href="#爬虫的基本流程" class="headerlink" title="爬虫的基本流程"></a>爬虫的基本流程</h2><h3 id="用户获取网络数据的方式："><a href="#用户获取网络数据的方式：" class="headerlink" title="用户获取网络数据的方式："></a>用户获取网络数据的方式：</h3><blockquote>
+<p><strong>方式1：浏览器提交请求—&gt;下载网页代码—&gt;解析成页面</strong></p>
+<p><strong>方式2：模拟浏览器发送请求(获取网页代码)-&gt;提取有用的数据-&gt;存放于数据库或文件中</strong></p>
+</blockquote>
+<p><strong>爬虫要做的就是方式2.</strong></p>
+<ul>
+<li><p><strong>1、发起请求</strong></p>
+<p>  使用http库向目标站点发起请求，即发送一个Request</p>
+<p>  Request包含：请求头、请求体等 </p>
+</li>
+<li><p><strong>2、获取响应内容</strong></p>
+<p>  如果服务器能正常响应，则会得到一个Response</p>
+<p>  Response包含：html，json，图片，视频等</p>
+</li>
+<li><p><strong>3、解析内容</strong></p>
+<p>  解析html数据：正则表达式（RE模块），第三方解析库如Beautifulsoup，pyquery等</p>
+<p>  解析json数据：json模块</p>
+<p>  解析二进制数据:以wb的方式写入文件</p>
+</li>
+<li><p><strong>4、保存数据</strong></p>
+<p>  数据库（MySQL，Mongdb、Redis）</p>
+<p>  文件</p>
+</li>
+</ul>
+<h2 id="反爬虫"><a href="#反爬虫" class="headerlink" title="反爬虫"></a>反爬虫</h2><ul>
+<li>爬虫：使用任何技术手段，批量获取网站信息的一种方式。关键在于批量。</li>
+<li>反爬虫：使用任何技术手段，阻止别人批量获取自己网站信息的一种方式。关键也在于批量。</li>
+<li>误伤：在反爬虫的过程中，错误的将普通用户识别为爬虫。误伤率高的反爬虫策略，效果再好也不能用。</li>
+<li>拦截：成功地阻止爬虫访问。这里会有拦截率的概念。通常来说，拦截率越高的反爬虫策略，误伤的可能性就越高。</li>
+</ul>
+<p>在与反爬虫的对抗中，我们爬虫的大招有两个，其一是多种ip更换方式（例如adsl|代理|tor等）。其二是无头浏览器，使用自动化的技术来进行自动数据抓取，模拟鼠标与键盘事件，可以用于破解验证码，js解析，诡异的模糊数据这类型的反爬虫技术。</p>
+<h3 id="常见的反爬虫策略"><a href="#常见的反爬虫策略" class="headerlink" title="常见的反爬虫策略"></a>常见的反爬虫策略</h3><p><strong>通过Headers反爬虫</strong></p>
+<p>从用户请求的Headers反爬虫是最常见的反爬虫策略。很多网站都会对Headers的User-Agent进行检测，还有一部分网站会对Referer进行检测（一些资源网站的防盗链就是检测Referer）。如果遇到了这类反爬虫机制，可以直接在爬虫中添加Headers，将浏览器的User-Agent复制到爬虫的Headers中；或者将Referer值修改为目标网站域名。对于检测Headers的反爬虫，在爬虫中修改或者添加Headers就能很好的绕过。</p>
+<p><strong>基于用户行为反爬虫</strong></p>
+<p>还有一部分网站是通过检测用户行为，例如同一IP短时间内多次访问同一页面，或者同一账户短时间内多次进行相同操作。</p>
+<p>大多数网站都是前一种情况，对于这种情况，使用IP代理就可以解决。可以专门写一个爬虫，爬取网上公开的代理ip，检测后全部保存起来。这样的代理ip爬虫经常会用到，最好自己准备一个。有了大量代理ip后可以每请求几次更换一个ip，这在requests或者urllib2中很容易做到，这样就能很容易的绕过第一种反爬虫。</p>
+<p>对于第二种情况，可以在每次请求后随机间隔几秒再进行下一次请求。有些有逻辑漏洞的网站，可以通过请求几次，退出登录，重新登录，继续请求来绕过同一账号短时间内不能多次进行相同请求的限制。</p>
+<p><strong>动态页面的反爬虫</strong></p>
+<p>上述的几种情况大多都是出现在静态页面，还有一部分网站，我们需要爬取的数据是通过ajax请求得到，或者通过JavaScript生成的。首先用Firebug或者HttpFox对网络请求进行分析。如果能够找到ajax请求，也能分析出具体的参数和响应的具体含义，我们就能采用上面的方法，直接利用requests或者urllib2模拟ajax请求，对响应的json进行分析得到需要的数据。</p>
+<p>能够直接模拟ajax请求获取数据固然是极好的，但是有些网站把ajax请求的所有参数全部加密了。我们根本没办法构造自己所需要的数据的请求。除了加密ajax参数，它还把一些基本的功能都封装了，全部都是在调用自己的接口，而接口参数都是加密的。遇到这样的网站，我们就不能用上面的方法，我用的是selenium+phantomJS，调用浏览器内核，并利用phantomJS执行js来模拟人为操作以及触发页面中的js脚本。从填写表单到点击按钮再到滚动页面，全部都可以模拟，不考虑具体的请求和响应过程，只是完完整整的把人浏览页面获取数据的过程模拟一遍。</p>
+<p>用这套框架几乎能绕过大多数的反爬虫，因为它不是在伪装成浏览器来获取数据（上述的通过添加 Headers一定程度上就是为了伪装成浏览器），它本身就是浏览器，phantomJS就是一个没有界面的浏览器，只是操控这个浏览器的不是人。利用 selenium+phantomJS能干很多事情，例如识别点触式（12306）或者滑动式的验证码，对页面表单进行暴力破解等等。</p>
+<h2 id="实战中java和python对比"><a href="#实战中java和python对比" class="headerlink" title="实战中java和python对比"></a>实战中java和python对比</h2><h3 id="以selenium-phantomjs-chrome为例"><a href="#以selenium-phantomjs-chrome为例" class="headerlink" title="以selenium+phantomjs/chrome为例"></a>以selenium+phantomjs/chrome为例</h3><h4 id="selenium-python操作："><a href="#selenium-python操作：" class="headerlink" title="selenium python操作："></a>selenium python操作：</h4><pre><code>dcap = dict(DesiredCapabilities.PHANTOMJS)  #设置useragent
+dcap[&apos;phantomjs.page.settings.userAgent&apos;] = (&apos;Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:25.0)&apos; &apos; Gecko/20100101 Firefox/25.0 &apos;)  #根据需要设置具体的浏览器信息
+browser = webdriver.PhantomJS(desired_capabilities=dcap)  #封装浏览器信息
+browser.get(url) #访问url
+browser.find_element_by_xpath(&apos;//div[@id=&quot;nav_content_5&quot;]/a&apos;)  #元素定位
+browser.find_element_by_class_name(&quot;query&quot;).send_keys(u&apos;百度&apos;) #元素定位并键入值（适用于搜索框）
+browser.find_element_by_class_name(&quot;oBtn&quot;).click() #元素定位并点击（常用）
+ActionChains(browser).move_to_element(element).perform()  #鼠标悬停
+handles = browser.window_handles  #获取当前全部窗口句柄集合
+browser.switch_to.window(browser.window_handles[1]) #跳转到某个窗口（适用于点击新开标签页）
+browser.find_element_by_link_text(“下一页”)  #标签元素快速定位
+data = browser.page_source #获取页面源码
+</code></pre><h4 id="selenium-java操作："><a href="#selenium-java操作：" class="headerlink" title="selenium java操作："></a>selenium java操作：</h4><pre><code>WebDriver driver = new ChromeDriver();
+driver.get(url);
+driver.findElement(By.xpath(&quot;//*[@id=\&quot;username\&quot;]&quot;)).sendKeys(userName);#定位元素键入值
+driver.findElement(By.xpath(&quot;//*[@id=\&quot;btn-login\&quot;]&quot;)).click();#定位元素并点击
+new Actions(driver).moveToElement(driver.findElement(By.xpath(&quot;//*[@id=&apos;topPanel&apos;]/ul/li[3]/a&quot;))).perform(); #鼠标悬停
+String source = driver.getPageSource(); #获取页面源码
+</code></pre><h3 id="解析处理细节"><a href="#解析处理细节" class="headerlink" title="解析处理细节"></a>解析处理细节</h3><p>可以通过xpath元素定位亦或是正则获取，个人建议，列表内容用正则，其他两者皆可。</p>
+<h4 id="python"><a href="#python" class="headerlink" title="python:"></a>python:</h4><pre><code>pattern = &apos;&lt;li&gt;.*?&lt;a href=&quot;(.*?)&quot;&gt;(.*?)&lt;/a&gt;.*?&lt;span.*?&gt;(.*?)&lt;/span&gt;&apos;
+data = browser.page_source
+contents = re.findall(pattern, data, re.S)    #re.S作用：使用re.S参数以后，正则表达式会将这个字符串作为一个整体，而不只是单行匹配
+for content in contents:
+    #处理细节
+    #content[0],content[1],content[2分别表示第一，二，三个group
+</code></pre><h4 id="java"><a href="#java" class="headerlink" title="java:"></a>java:</h4><p>regex:</p>
+<pre><code>String regexNumber = &quot;&amp;coNum=(.*?)&amp;&quot;;
+Pattern pattern  = Pattern.compile(regexNumber,Pattern.DOTALL);
+Matcher matcher = pattern.matcher(url);
+while (matcher.find()){
+    #处理细节
+    #mather.group(0)表示匹配的整个字符串，mather.group(1)表示第一个group,
+    #mather.group(2)表示第二个group
+}
+</code></pre><p>xpath:</p>
+<pre><code>Html html = new Html(source);
+//获取单个数据
+String name = html.xpath(&quot;[@id=\&quot;custName\&quot;]/text()&quot;).toString();
+//获取列表数据
+List&lt;String&gt; strings = html.xpath(&quot;//*[@id=\&quot;content\&quot;]/ul/li&quot;).all();
+</code></pre><h2 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h2><h3 id="xpath简单获取方式"><a href="#xpath简单获取方式" class="headerlink" title="xpath简单获取方式"></a>xpath简单获取方式</h3><p>  浏览器页面上右键审查元素，此时会定位到代码，再右键copy xpath就ok</p>
+<h3 id="java模拟chrome下载文件代码"><a href="#java模拟chrome下载文件代码" class="headerlink" title="java模拟chrome下载文件代码"></a>java模拟chrome下载文件代码</h3><pre><code>String downloadFilepath = &quot;D:\\test\\excel&quot;;
+HashMap&lt;String, Object&gt; chromePrefs = new HashMap&lt;String, Object&gt;();
+chromePrefs.put(&quot;profile.default_content_settings.popups&quot;, 0);
+chromePrefs.put(&quot;download.default_directory&quot;, downloadFilepath);
+ChromeOptions options = new ChromeOptions();
+HashMap&lt;String, Object&gt; chromeOptionsMap = new HashMap&lt;String, Object&gt;();
+options.setExperimentalOption(&quot;prefs&quot;,chromePrefs);
+options.addArguments(&quot;--test-type&quot;);
+DesiredCapabilities cap = DesiredCapabilities.chrome();
+cap.setCapability(ChromeOptions.CAPABILITY, chromeOptionsMap);
+cap.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+cap.setCapability(ChromeOptions.CAPABILITY, options);
+WebDriver driver = new ChromeDriver(cap);
+#-----------------------此处省略各种花里胡哨的操作-----------------------
+JavascriptExecutor js = (JavascriptExecutor) driver;
+js.executeScript(&quot;arguments[0].click();&quot;,driver.findElement(By.xpath(&quot;//*[@id=\&quot;content\&quot;]/div[1]/div[5]/input[1]&quot;)));
+driver.findElement(By.xpath(&quot;//*[@id=\&quot;content\&quot;]/div[1]/div[5]/input[1]&quot;)).click();
+</code></pre><h3 id="java页面等待"><a href="#java页面等待" class="headerlink" title="java页面等待"></a>java页面等待</h3><pre><code>WebDriverWait wait = new WebDriverWait(driver,10);
+wait.until(new ExpectedCondition&lt;WebElement&gt;(){
+  @Override
+  public WebElement apply(WebDriver d) {
+     String s = d.findElement(By.id(&quot;//*[@id=\&quot;content1\&quot;]/div/div[2]/div/p[3]/text()&quot;)).toString();
+     return d.findElement(By.id(&quot;//*[@id=\&quot;content1\&quot;]/div/div[2]/div/p[3]/text()&quot;));
+}}).click();
+</code></pre><h3 id="java保存截图"><a href="#java保存截图" class="headerlink" title="java保存截图"></a>java保存截图</h3><pre><code>File screenShot = driver.getScreenshotAs(OutputType.FILE);
+FileUtils.copyFile(screenShot,new File(&quot;test.jpg&quot;));
+</code></pre><h3 id="chrome能定位到的弹窗元素，phantomjs却定位不到，用JS执行就可以"><a href="#chrome能定位到的弹窗元素，phantomjs却定位不到，用JS执行就可以" class="headerlink" title="chrome能定位到的弹窗元素，phantomjs却定位不到，用JS执行就可以"></a>chrome能定位到的弹窗元素，phantomjs却定位不到，用JS执行就可以</h3><pre><code>JavascriptExecutor js = (JavascriptExecutor) driver;
+js.executeScript(&quot;arguments[0].click();&quot;,driver.findElement(By.xpath(&quot;//*[@id=\&quot;content\&quot;]/div[1]/div[5]/input[1]&quot;)));
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/spider/" rel="tag"># spider</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/必学的linux命令--文件目录管理.html" rel="prev" title="必学的linux命令--文件目录管理">
+                必学的linux命令--文件目录管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="微醺小熊" />
+            
+              <p class="site-author-name" itemprop="name">微醺小熊</p>
+              <p class="site-description motion-element" itemprop="description">学海无涯，回头是岸</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是爬虫"><span class="nav-number">1.</span> <span class="nav-text">什么是爬虫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#爬虫的基本流程"><span class="nav-number">2.</span> <span class="nav-text">爬虫的基本流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用户获取网络数据的方式："><span class="nav-number">2.1.</span> <span class="nav-text">用户获取网络数据的方式：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反爬虫"><span class="nav-number">3.</span> <span class="nav-text">反爬虫</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常见的反爬虫策略"><span class="nav-number">3.1.</span> <span class="nav-text">常见的反爬虫策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实战中java和python对比"><span class="nav-number">4.</span> <span class="nav-text">实战中java和python对比</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#以selenium-phantomjs-chrome为例"><span class="nav-number">4.1.</span> <span class="nav-text">以selenium+phantomjs/chrome为例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#selenium-python操作："><span class="nav-number">4.1.1.</span> <span class="nav-text">selenium python操作：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#selenium-java操作："><span class="nav-number">4.1.2.</span> <span class="nav-text">selenium java操作：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解析处理细节"><span class="nav-number">4.2.</span> <span class="nav-text">解析处理细节</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#python"><span class="nav-number">4.2.1.</span> <span class="nav-text">python:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java"><span class="nav-number">4.2.2.</span> <span class="nav-text">java:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tips"><span class="nav-number">5.</span> <span class="nav-text">tips</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#xpath简单获取方式"><span class="nav-number">5.1.</span> <span class="nav-text">xpath简单获取方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java模拟chrome下载文件代码"><span class="nav-number">5.2.</span> <span class="nav-text">java模拟chrome下载文件代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java页面等待"><span class="nav-number">5.3.</span> <span class="nav-text">java页面等待</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java保存截图"><span class="nav-number">5.4.</span> <span class="nav-text">java保存截图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chrome能定位到的弹窗元素，phantomjs却定位不到，用JS执行就可以"><span class="nav-number">5.5.</span> <span class="nav-text">chrome能定位到的弹窗元素，phantomjs却定位不到，用JS执行就可以</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">微醺小熊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"pluginJsPath":"lib/","pluginRootPath":"live2dw/"});</script></body>
+</html>

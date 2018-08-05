@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta name="baidu-site-verification" content="mFbtePyYMA" />
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="linux," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="用户组，在linux中的每个用户必须属于一个组，不能独立于组外所有者一般为文件的创建者，谁创建了该文件，就天然的成为该文件的所有者 用ls ‐ahl命令可以看到文件的所有者 也可以使用chown 用户名 文件名来修改文件的所有者 文件所在组当某个用户创建了一个文件后，这个文件的所在组就是该用户所在的组 用ls ‐ahl命令可以看到文件的所有组 也可以使用chgrp 组名 文件名来修改文件所在的组">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="必学的linux命令--用户及文件权限">
+<meta property="og:url" content="http://limic.top/必学的linux命令-用户及文件权限.html">
+<meta property="og:site_name" content="微醺小熊">
+<meta property="og:description" content="用户组，在linux中的每个用户必须属于一个组，不能独立于组外所有者一般为文件的创建者，谁创建了该文件，就天然的成为该文件的所有者 用ls ‐ahl命令可以看到文件的所有者 也可以使用chown 用户名 文件名来修改文件的所有者 文件所在组当某个用户创建了一个文件后，这个文件的所在组就是该用户所在的组 用ls ‐ahl命令可以看到文件的所有组 也可以使用chgrp 组名 文件名来修改文件所在的组">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/BX26HZq.png">
+<meta property="og:updated_time" content="2018-08-05T03:43:01.711Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="必学的linux命令--用户及文件权限">
+<meta name="twitter:description" content="用户组，在linux中的每个用户必须属于一个组，不能独立于组外所有者一般为文件的创建者，谁创建了该文件，就天然的成为该文件的所有者 用ls ‐ahl命令可以看到文件的所有者 也可以使用chown 用户名 文件名来修改文件的所有者 文件所在组当某个用户创建了一个文件后，这个文件的所在组就是该用户所在的组 用ls ‐ahl命令可以看到文件的所有组 也可以使用chgrp 组名 文件名来修改文件所在的组">
+<meta name="twitter:image" content="https://i.imgur.com/BX26HZq.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://limic.top/必学的linux命令-用户及文件权限.html"/>
+
+
+
+
+
+  <title>必学的linux命令--用户及文件权限 | 微醺小熊</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/findfz/"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png" alt="Fork me on GitHub"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">微醺小熊</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">个人博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://limic.top/必学的linux命令-用户及文件权限.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="微醺小熊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="微醺小熊">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">必学的linux命令--用户及文件权限</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-12T21:38:39+08:00">
+                2018-06-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="用户组，在linux中的每个用户必须属于一个组，不能独立于组外"><a href="#用户组，在linux中的每个用户必须属于一个组，不能独立于组外" class="headerlink" title="用户组，在linux中的每个用户必须属于一个组，不能独立于组外"></a>用户组，在linux中的每个用户必须属于一个组，不能独立于组外</h2><h3 id="所有者"><a href="#所有者" class="headerlink" title="所有者"></a>所有者</h3><p>一般为文件的创建者，谁创建了该文件，就天然的成为该文件的所有者</p>
+<p>用ls ‐ahl命令可以看到文件的所有者</p>
+<p>也可以使用chown 用户名 文件名来修改文件的所有者</p>
+<h3 id="文件所在组"><a href="#文件所在组" class="headerlink" title="文件所在组"></a>文件所在组</h3><p>当某个用户创建了一个文件后，这个文件的所在组就是该用户所在的组</p>
+<p>用ls ‐ahl命令可以看到文件的所有组</p>
+<p>也可以使用chgrp 组名 文件名来修改文件所在的组</p>
+<h3 id="其它组"><a href="#其它组" class="headerlink" title="其它组"></a>其它组</h3><p>除开文件的所有者和所在组的用户外，系统的其它用户都是文件的其它组</p>
+<h3 id="用户和组常用命令"><a href="#用户和组常用命令" class="headerlink" title="用户和组常用命令"></a>用户和组常用命令</h3><p>添加一般用户</p>
+<pre><code>useradd test
+</code></pre><p>为添加的用户指定相应的用户组</p>
+<pre><code>useradd -g root test
+</code></pre><p>创建一个系统用户</p>
+<pre><code>useradd -r test
+</code></pre><p>为新添加的用户指定home目录</p>
+<pre><code>useradd -d /home/prod test
+</code></pre><p>删除用户账号(-r 删除用户登入目录以及目录中所有文件)</p>
+<pre><code>userdel -r test
+</code></pre><p>在添加用户时，可以指定将该用户添加到哪个组中，同样用root的管理权限可以改变某个用户所在的组    </p>
+<pre><code>usermod ‐g test test
+</code></pre><p>同时也可以改变该用户登录的初始目录</p>
+<pre><code>usermod ‐d /home/test test
+</code></pre><p>groups 查看当前登录用户的组内成员</p>
+<pre><code>[root@xiongzhan service]# groups
+root
+</code></pre><p>groups xiongzhan 查看xiongzhan用户所在的组,以及组内成员</p>
+<pre><code>[root@xiongzhan service]# groups xiongzhan
+xiongzhan : xiongzhan
+</code></pre><p>whoami 查看当前登录用户名</p>
+<pre><code>[root@xiongzhan service]# whoami
+root
+</code></pre><h2 id="文件权限查看"><a href="#文件权限查看" class="headerlink" title="文件权限查看"></a>文件权限查看</h2><p><img src="https://i.imgur.com/BX26HZq.png" alt=""></p>
+<pre><code>[xiongzhan@xiongzhan service]$ ls -l
+total 145432
+文件属性   文件数  拥有者  所属group  文件大小   建档日期     文件名
+-rw-r--r--  1      root      root     74388646  Mar 23 11:10   jenkins-2.109-1.1.noarch.rpm
+-rw-r--r--  1      root     root     74525235  Mar 23 10:44   jenkins.war
+drwxr-xr-x  3      root      root       31       Jun 21  2017   maven
+drwxr-xr-x  6      root      root       48       Oct 17  2017   nginx
+-rw-r--r--  1      root      root      1330      Feb  3 17:17   phantomjsdriver.log
+drwxr-xr-x  3      root      root       33       Jun 21  2017   tomcat
+</code></pre><h3 id="第一个栏位，表示文件属性"><a href="#第一个栏位，表示文件属性" class="headerlink" title="第一个栏位，表示文件属性"></a>第一个栏位，表示文件属性</h3><pre><code>Linux的文件基本上分为三个属性：可读（r），可写（w），可执行（x）。
+但是这里有十个格子可以填（具体程序实现时，实际上是十个bit位）。
+第一个小格是特殊表示格，表示目录或连结文件等等，d表示目录，例如drwx------;
+l表示连结文件，如lrwxrwxrwx;如果是以一横“-”表示，则表示这是文件。
+其余剩下的格子就以每3格为一个单位。
+因为Linux是多用户多任务系统，所以一个文件可能同时被许多人使用，
+所以我们一定要设好每个文件的权限，其文件的权限位置排列顺序是
+（以-rwxr-xr-x为例）：rwx(Owner)r-x(Group)r-x(Other)　　
+这个例子表示的权限是：使用者自己可读，可写，可执行；同一组的用户可读，不可写，可执行；其它用户可读，不可写，可执行。
+另外，有一些程序属性的执行部分不是X,而是S,这表示执行这个程序的使用者，临时可以有和拥有者一样权力的身份来执行该程序。
+一般出现在系统管理之类的指令或程序，让使用者执行时，拥有root身份。　
+</code></pre><h3 id="第二个栏位，表示文件个数"><a href="#第二个栏位，表示文件个数" class="headerlink" title="第二个栏位，表示文件个数"></a>第二个栏位，表示文件个数</h3><pre><code>如果是文件的话，那这个数目自然是1了，如果是目录的话，那它的数目就是该目录中的文件个数了。
+</code></pre><h3 id="第三个栏位，表示该文件或目录的拥有者"><a href="#第三个栏位，表示该文件或目录的拥有者" class="headerlink" title="第三个栏位，表示该文件或目录的拥有者"></a>第三个栏位，表示该文件或目录的拥有者</h3><pre><code>若使用者目前处于自己的Home,那这一栏大概都是它的账号名称。
+</code></pre><h3 id="第四个栏位，表示所属的组（group）"><a href="#第四个栏位，表示所属的组（group）" class="headerlink" title="第四个栏位，表示所属的组（group）"></a>第四个栏位，表示所属的组（group）</h3><pre><code>每一个使用者都可以拥有一个以上的组，不过大部分的使用者应该都只属于一个组，
+只有当系统管理员希望给予某使用者特殊权限时，才可能会给他另一个组。　　
+</code></pre><h3 id="第五个栏位，表示文件大小"><a href="#第五个栏位，表示文件大小" class="headerlink" title="第五个栏位，表示文件大小"></a>第五个栏位，表示文件大小</h3><pre><code>文件大小用byte来表示，而空目录一般都是1024byte，你当然可以用其它参数使文件显示的单位不同，
+如使用ls –k就是用kb来显示一个文件的大小单位，不过一般我们还是以byte为主。　　
+</code></pre><h3 id="第六个栏位，表示创建日期"><a href="#第六个栏位，表示创建日期" class="headerlink" title="第六个栏位，表示创建日期"></a>第六个栏位，表示创建日期</h3><pre><code>以“月，日，时间”的格式表示，如Aug 15 5:46表示8月15日早上5:46分。　　
+</code></pre><h3 id="第七个栏位，表示文件名"><a href="#第七个栏位，表示文件名" class="headerlink" title="第七个栏位，表示文件名"></a>第七个栏位，表示文件名</h3><pre><code>我们可以用ls –a显示隐藏的文件名。
+</code></pre><h2 id="权限更改"><a href="#权限更改" class="headerlink" title="权限更改"></a>权限更改</h2><h3 id="chmod-改变文件或目录的权限"><a href="#chmod-改变文件或目录的权限" class="headerlink" title="chmod 改变文件或目录的权限"></a>chmod 改变文件或目录的权限</h3><pre><code>chmod 751 jenkins.war：赋予jenkins.war权限rwxr-x--x
+751拆解：
+7 ： r+w+x ＝ 2^2+2^1+2^0 = 4+2+1 = 7
+5 ： r+-+x ＝ 2^2+0+2^0 = 4+0+1 = 5
+1 ： -+-+x ＝ 0+0+2^0 = 1
+
+chmod u=rwx，g=rx，o=rx jenkins.war：同上u=用户权限，g=组权限，o=不同组其他用户权限
+
+chmod u-x，g+w jenkins.war：给jenkins.war去除用户执行的权限，增加组写的权限
+
+chmod a+r jenkins.war：给所有用户添加读的权限
+</code></pre><h3 id="改变所有者（chown）和用户组（chgrp）命令"><a href="#改变所有者（chown）和用户组（chgrp）命令" class="headerlink" title="改变所有者（chown）和用户组（chgrp）命令"></a>改变所有者（chown）和用户组（chgrp）命令</h3><pre><code>chown xiongzhan jenkins.war：改变jenkins.war的所有者为xiongzhan
+
+chgrp root jenkins.war：改变jenkins.war所属的组为root
+
+chown root ./maven：改变maven这个目录的所有者是root
+
+chown ‐R root ./maven：改变maven这个目录及其下面所有的文件和目录的所有者是root
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/必学的linux命令--文件目录管理.html" rel="next" title="必学的linux命令--文件目录管理">
+                <i class="fa fa-chevron-left"></i> 必学的linux命令--文件目录管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/必学的linux命令-应用服务的启停.html" rel="prev" title="必学的linux命令-应用服务的启停">
+                必学的linux命令-应用服务的启停 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="微醺小熊" />
+            
+              <p class="site-author-name" itemprop="name">微醺小熊</p>
+              <p class="site-description motion-element" itemprop="description">学海无涯，回头是岸</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#用户组，在linux中的每个用户必须属于一个组，不能独立于组外"><span class="nav-number">1.</span> <span class="nav-text">用户组，在linux中的每个用户必须属于一个组，不能独立于组外</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#所有者"><span class="nav-number">1.1.</span> <span class="nav-text">所有者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件所在组"><span class="nav-number">1.2.</span> <span class="nav-text">文件所在组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它组"><span class="nav-number">1.3.</span> <span class="nav-text">其它组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户和组常用命令"><span class="nav-number">1.4.</span> <span class="nav-text">用户和组常用命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件权限查看"><span class="nav-number">2.</span> <span class="nav-text">文件权限查看</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一个栏位，表示文件属性"><span class="nav-number">2.1.</span> <span class="nav-text">第一个栏位，表示文件属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二个栏位，表示文件个数"><span class="nav-number">2.2.</span> <span class="nav-text">第二个栏位，表示文件个数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三个栏位，表示该文件或目录的拥有者"><span class="nav-number">2.3.</span> <span class="nav-text">第三个栏位，表示该文件或目录的拥有者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四个栏位，表示所属的组（group）"><span class="nav-number">2.4.</span> <span class="nav-text">第四个栏位，表示所属的组（group）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五个栏位，表示文件大小"><span class="nav-number">2.5.</span> <span class="nav-text">第五个栏位，表示文件大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第六个栏位，表示创建日期"><span class="nav-number">2.6.</span> <span class="nav-text">第六个栏位，表示创建日期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第七个栏位，表示文件名"><span class="nav-number">2.7.</span> <span class="nav-text">第七个栏位，表示文件名</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#权限更改"><span class="nav-number">3.</span> <span class="nav-text">权限更改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#chmod-改变文件或目录的权限"><span class="nav-number">3.1.</span> <span class="nav-text">chmod 改变文件或目录的权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改变所有者（chown）和用户组（chgrp）命令"><span class="nav-number">3.2.</span> <span class="nav-text">改变所有者（chown）和用户组（chgrp）命令</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">微醺小熊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"pluginJsPath":"lib/","pluginRootPath":"live2dw/"});</script></body>
+</html>

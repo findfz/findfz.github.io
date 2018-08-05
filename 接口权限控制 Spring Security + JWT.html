@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta name="baidu-site-verification" content="mFbtePyYMA" />
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="springboot,JWT,spring security," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="什么是JWTAPI形式的服务越来越流行，如何保证我们的接口安全？JSON Web Tokens(JWT)能提供基于JSON格式的安全认证。 它有以下特点： JWT是跨不同语言的，JWT可以在 .NET, Python, Node.js, Java, PHP, Ruby, Go, JavaScript和Haskell中使用 JWT是自我包涵的，它们包含了必要的所有信息，这就意味着JWT能够传递关于它">
+<meta name="keywords" content="springboot,JWT,spring security">
+<meta property="og:type" content="article">
+<meta property="og:title" content="接口权限控制 Spring Security + JWT">
+<meta property="og:url" content="http://limic.top/接口权限控制 Spring Security + JWT.html">
+<meta property="og:site_name" content="微醺小熊">
+<meta property="og:description" content="什么是JWTAPI形式的服务越来越流行，如何保证我们的接口安全？JSON Web Tokens(JWT)能提供基于JSON格式的安全认证。 它有以下特点： JWT是跨不同语言的，JWT可以在 .NET, Python, Node.js, Java, PHP, Ruby, Go, JavaScript和Haskell中使用 JWT是自我包涵的，它们包含了必要的所有信息，这就意味着JWT能够传递关于它">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/znBm9wz.png">
+<meta property="og:image" content="https://i.imgur.com/HkFxoJD.png">
+<meta property="og:updated_time" content="2018-08-05T03:43:01.712Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="接口权限控制 Spring Security + JWT">
+<meta name="twitter:description" content="什么是JWTAPI形式的服务越来越流行，如何保证我们的接口安全？JSON Web Tokens(JWT)能提供基于JSON格式的安全认证。 它有以下特点： JWT是跨不同语言的，JWT可以在 .NET, Python, Node.js, Java, PHP, Ruby, Go, JavaScript和Haskell中使用 JWT是自我包涵的，它们包含了必要的所有信息，这就意味着JWT能够传递关于它">
+<meta name="twitter:image" content="https://i.imgur.com/znBm9wz.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://limic.top/接口权限控制 Spring Security + JWT.html"/>
+
+
+
+
+
+  <title>接口权限控制 Spring Security + JWT | 微醺小熊</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/findfz/"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png" alt="Fork me on GitHub"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">微醺小熊</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">个人博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://limic.top/接口权限控制 Spring Security + JWT.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="微醺小熊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="微醺小熊">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">接口权限控制 Spring Security + JWT</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-29T00:00:58+08:00">
+                2018-07-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="什么是JWT"><a href="#什么是JWT" class="headerlink" title="什么是JWT"></a>什么是JWT</h2><p>API形式的服务越来越流行，如何保证我们的接口安全？JSON Web Tokens(JWT)能提供基于JSON格式的安全认证。</p>
+<p>它有以下特点：</p>
+<pre><code>JWT是跨不同语言的，JWT可以在 .NET, Python, Node.js, Java, PHP, Ruby, Go, JavaScript和Haskell中使用
+JWT是自我包涵的，它们包含了必要的所有信息，这就意味着JWT能够传递关于它自己的基本信息，比如用户信息和签名等。
+JWT传递是容易的，因为JWT是自我包含，它们能被完美用在HTTP头部中，当需要授权API时，你只要通过URL一起传送它既可。
+</code></pre><p>在身份认证的实现中，传统方法是在服务端存储一个session，给客户端返回一个cookie，而使用JWT之后，当用户使用它的认证信息登录系统之后，会返回给用户一个JWT，用户只需要本地保存该token（通常使用local storage，也可以使用cookie）即可。</p>
+<p>因为用户的状态在服务端的内存中是不存储的，所以这是一种 <strong>无状态</strong> 的认证机制。</p>
+<p>JWT易于辨识，是三段由小数点组成的字符串：</p>
+<p>aaaaaaaaaa.bbbbbbbbbbb.cccccccccccc</p>
+<p>这三部分含义分别是<strong>header</strong>，<strong>payload</strong>, <strong>signature</strong></p>
+<h3 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h3><p>头部包含了两个方面：类型和使用的哈希算法（如HMAC SHA256）：</p>
+<pre><code>{
+&quot;typ&quot;: &quot;JWT&quot;,
+&quot;alg&quot;: &quot;HS256&quot; 
+}
+</code></pre><p>对这个JSON字符进行base64encode编码，我们就有了首个JWT:</p>
+<pre><code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+</code></pre><h3 id="Payload"><a href="#Payload" class="headerlink" title="Payload"></a>Payload</h3><p>JWT的第二部分是payload，也称为 JWT Claims，这里放置的是我们需要传输的信息，有多个项目如注册的claim名称，公共claim名称和私有claim名称。</p>
+<p>注册claim名称有下面几个部分：</p>
+<pre><code>iss: token的发行者
+sub: token的题目
+aud: token的客户
+exp: 经常使用的，以数字时间定义失效期，也就是当前时间以后的某个时间本token失效。
+nbf: 定义在此时间之前，JWT不会接受处理。
+iat: JWT发布时间，能用于决定JWT年龄
+jti: JWT唯一标识. 能用于防止 JWT重复使用，一次只用一个token
+</code></pre><p>公共claim名称用于定义我们自己创造的信息，比如用户信息和其他重要信息。</p>
+<p>私有claim名称用于发布者和消费者都同意以私有的方式使用claim名称。</p>
+<h3 id="Signature"><a href="#Signature" class="headerlink" title="Signature"></a>Signature</h3><p>JWT第三部分最后是签名，签名由以下组件组成：</p>
+<pre><code>header
+payload
+密钥
+</code></pre><p>下面是我们如何得到JWT的第三部分：</p>
+<p>var encodedString = base64UrlEncode(header) + “.” + base64UrlEncode(payload); HMACSHA256(encodedString, ‘secret’);</p>
+<p>这里的secret是被服务器签名，我们服务器能够验证存在的token并签名新的token。</p>
+<h3 id="授权应用"><a href="#授权应用" class="headerlink" title="授权应用"></a>授权应用</h3><p>JWT在实际授权中应用，JWT提供下述功能：</p>
+<pre><code>某种程度的用户身份验证
+使用密钥签名
+客户端每个请求都带有JWT
+服务器使用密钥分析和检查claim名称
+</code></pre><p>用户在平台注册，然后登录，登录成功则会由服务端生成一个token返回给客户端，客户端在失效日期内带上JWT请求API都能得到想要的资源。</p>
+<h2 id="Spring-Boot下的JWT实现"><a href="#Spring-Boot下的JWT实现" class="headerlink" title="Spring Boot下的JWT实现"></a>Spring Boot下的JWT实现</h2><h3 id="首先引入相关依赖"><a href="#首先引入相关依赖" class="headerlink" title="首先引入相关依赖"></a>首先引入相关依赖</h3><pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt;
+    &lt;artifactId&gt;jjwt&lt;/artifactId&gt;
+    &lt;version&gt;0.9.1&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre><h3 id="部分代码搬运地址这里"><a href="#部分代码搬运地址这里" class="headerlink" title="部分代码搬运地址这里"></a>部分代码搬运地址<a href="https://www.jdon.com/dl/best/json-web-tokens-spring-cloud-microservices.html" target="_blank" rel="noopener">这里</a></h3><pre><code>/**
+ * Author：xiongzhan
+ * Description：JsonWebToken
+ * Date: 2018-07-28 15:19
+ */
+public class JsonWebTokenUtility {
+
+    private SignatureAlgorithm signatureAlgorithm;
+
+    private Key secretKey;
+
+
+    public JsonWebTokenUtility() {
+
+
+        // 这里不是真正安全的实践
+
+        // 为了简单，我们存储一个静态key在这里，
+
+        // 在真正微服务环境，这个key将会被保留在配置服务器
+
+        signatureAlgorithm = SignatureAlgorithm.HS512;
+
+        String encodedKey =
+
+                &quot;L7A/6zARSkK1j7Vd5SDD9pSSqZlqF7mAhiOgRbgv9Smce6tf4cJnvKOjtKPxNNnWQj+2lQEScm3XIUjhW+YVZg==&quot;;
+
+        secretKey = deserializeKey(encodedKey);
+
+    }
+
+
+
+    public String createJsonWebToken(AuthTokenDetailsDTO authTokenDetailsDTO)
+
+    {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_WEEK, 1);
+
+        String token =
+
+                Jwts.builder().setSubject(authTokenDetailsDTO.getUserId())
+
+                        .claim(&quot;lenderId&quot;, authTokenDetailsDTO.getLenderId())
+
+                        .claim(&quot;name&quot;, authTokenDetailsDTO.getName())
+
+                        .claim(&quot;productCode&quot;, authTokenDetailsDTO.getProductCode())
+
+                        .setExpiration(calendar.getTime())
+
+                        .signWith(getSignatureAlgorithm(),
+
+                                getSecretKey()).compact();
+
+        return token;
+
+    }
+
+
+
+    private Key deserializeKey(String encodedKey) {
+
+        byte[] decodedKey = Base64.getDecoder().decode(encodedKey);
+
+        Key key =
+
+                new SecretKeySpec(decodedKey, getSignatureAlgorithm().getJcaName());
+
+        return key;
+
+    }
+
+
+    private Key getSecretKey() {
+
+        return secretKey;
+
+    }
+
+
+    public SignatureAlgorithm getSignatureAlgorithm() {
+
+        return signatureAlgorithm;
+
+    }
+
+
+    public AuthTokenDetailsDTO parseAndValidate(String token) {
+
+        AuthTokenDetailsDTO authTokenDetailsDTO = null;
+
+        try {
+
+            Claims claims =
+
+                    Jwts.parser().setSigningKey(getSecretKey()).parseClaimsJws(token).getBody();
+
+            String userId = claims.getSubject();
+
+            String lenderId = (String) claims.get(&quot;lenderId&quot;);
+
+            String name = (String) claims.get(&quot;name&quot;);
+
+            String productCode = (String) claims.get(&quot;productCode&quot;);
+
+            Date expirationDate = claims.getExpiration();
+
+            authTokenDetailsDTO = new AuthTokenDetailsDTO();
+
+            authTokenDetailsDTO.setUserId(userId);
+
+            authTokenDetailsDTO.setLenderId(lenderId);
+
+            authTokenDetailsDTO.setName(name);
+
+            authTokenDetailsDTO.setProductCode(productCode);
+
+            authTokenDetailsDTO.setExpirationDate(expirationDate);
+        } catch (JwtException ex) {
+
+            System.out.println(ex);
+
+        }
+
+        return authTokenDetailsDTO;
+
+    }
+
+
+    private String serializeKey(Key key) {
+
+        String encodedKey =
+
+                Base64.getEncoder().encodeToString(key.getEncoded());
+
+        return encodedKey;
+
+    }
+}
+</code></pre><p>AuthTokenDetailsDTO类</p>
+<pre><code>/**
+ * Author：xiongzhan
+ * Description：authToken
+ * Date: 2018-07-28 15:26
+ */
+@Data
+public class AuthTokenDetailsDTO {
+
+    private String userId;
+
+    private String name;
+
+    private String lenderId;
+
+    private String productCode;
+
+    private Date expirationDate;
+
+}
+</code></pre><p>现在我们需要一个定制授权过滤器，就能读取请求头部信息，在Spring中已经有一个这样的授权Filter称为：RequestHeaderAuthenticationFilter，我们只要扩展继承即可：</p>
+<pre><code>/**
+ * Author：xiongzhan
+ * Description：JWT认证授权filter
+ * Date: 2018-07-28 16:00
+ */
+@Component
+public class JsonWebTokenAuthenticationFilter extends RequestHeaderAuthenticationFilter {
+
+
+    public JsonWebTokenAuthenticationFilter() {
+
+        // Don&apos;t throw exceptions if the header is missing
+
+        this.setExceptionIfHeaderMissing(false);
+
+
+        // This is the request header it will look for
+
+        this.setPrincipalRequestHeader(&quot;token&quot;);
+
+    }
+
+
+    @Override
+
+    @Autowired
+
+    public void setAuthenticationManager(
+
+            AuthenticationManager authenticationManager) {
+
+        super.setAuthenticationManager(authenticationManager);
+
+    }
+}
+</code></pre><p>在这里，头部信息将被转换为Spring Authentication 对象，名称为PreAuthenticatedAuthenticationToken</p>
+<p>我们需要一个授权提供者读取这个记号，然后验证它，然后转换为我们自己的定制授权对象。也即是把header里的token转化成我们自己的授权对</p>
+<p>象。然后把解析之后的对象返回给Spring Security，这里就相当于完成了token-&gt;session的转换。</p>
+<pre><code>/**
+ * Author：xiongzhan
+ * Description：JWT授权provider
+ * Date: 2018-07-28 16:04
+ */
+@Component
+public class JsonWebTokenAuthenticationProvider implements AuthenticationProvider {
+
+
+    private JsonWebTokenUtility tokenService = new JsonWebTokenUtility();
+
+
+    @Override
+    public Authentication authenticate(Authentication authentication)
+
+            throws AuthenticationException {
+
+        Authentication authenticatedUser = null;
+
+        // Only process the PreAuthenticatedAuthenticationToken
+
+        if (authentication.getClass().
+
+                isAssignableFrom(PreAuthenticatedAuthenticationToken.class)
+
+                &amp;&amp; authentication.getPrincipal() != null) {
+
+            String tokenHeader = (String) authentication.getPrincipal();
+
+            UserDetails userDetails = parseToken(tokenHeader);
+
+            if (userDetails != null) {
+
+                authenticatedUser =
+
+                        new JWTAuthentication(userDetails, tokenHeader);
+
+            }
+
+        } else {
+
+            // It is already a JsonWebTokenAuthentication
+
+            authenticatedUser = authentication;
+
+        }
+
+        return authenticatedUser;
+
+    }
+
+
+
+    private UserDetails parseToken(String tokenHeader) {
+
+
+        UserDetails principal = null;
+
+        AuthTokenDetailsDTO authTokenDetails =
+
+                tokenService.parseAndValidate(tokenHeader);
+
+
+
+        if (authTokenDetails != null) {
+
+            List&lt;GrantedAuthority&gt; authorityList = AuthorityUtils.commaSeparatedStringToAuthorityList(&quot;admin&quot;);
+
+            principal = new CustomizeUserDetails(authTokenDetails.getName(), &quot;123456&quot;, authorityList, authTokenDetails.getLenderId(),authTokenDetails.getProductCode());
+
+        }
+
+
+
+        return principal;
+
+    }
+
+
+
+    @Override
+
+    public boolean supports(Class&lt;?&gt; authentication) {
+
+        return
+
+                authentication.isAssignableFrom(
+
+                        PreAuthenticatedAuthenticationToken.class)||
+
+                        authentication.isAssignableFrom(
+
+                                JWTAuthentication.class);
+
+    }
+}
+</code></pre><p>JWTAuthentication类</p>
+<pre><code>public class JWTAuthentication extends AbstractAuthenticationToken {
+
+    private static final long serialVersionUID = 865507321522897337L;
+
+    private UserDetails principal;
+
+    private String jsonWebToken;
+
+    public JWTAuthentication(UserDetails principal, String jsonWebToken) {
+        super(principal.getAuthorities());
+        this.principal = principal;
+        this.jsonWebToken = jsonWebToken;
+    }
+
+
+    @Override
+    public Object getCredentials() {
+        return null;
+    }
+
+    @Override
+    public Object getPrincipal() {
+        return principal;
+    }
+}
+</code></pre><h3 id="Spring-Security配置"><a href="#Spring-Security配置" class="headerlink" title="Spring Security配置"></a>Spring Security配置</h3><p>上面通过JsonWebTokenAuthenticationProvider的处理，我们已经能通过header的token来识别用户，并拿到他的userId和lenderId等信息。</p>
+<p>接下来我们来配置拦截器</p>
+<pre><code>/**
+ * Author：xiongzhan
+ * Description：JWTSecurityConfig
+ * Date: 2018-07-28 15:26
+ */
+public abstract class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private JsonWebTokenAuthenticationProvider authenticationProvider;
+
+    @Autowired
+    private JsonWebTokenAuthenticationFilter jsonWebTokenFilter;
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        // This method is here with the @Bean annotation so that Spring can
+        // autowire it
+        return super.authenticationManagerBean();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider);
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                // allow anonymous access to /customer/login endpoint
+                .antMatchers(&quot;/user/login&quot;).permitAll()
+                // authenticate all other requests
+                .anyRequest().authenticated()
+                .and()
+            .headers()
+                .frameOptions()
+                .sameOrigin()
+                .and()
+                // disable CSRF, http basic, form login
+                .csrf().disable()
+                // 跨域支持
+                .cors().and()
+                .httpBasic().disable()
+                .formLogin().disable()
+                // REST is stateless, no sessions
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                // return 403 when not authenticated
+                .exceptionHandling().authenticationEntryPoint(new NoAuthenticationEntryPoint());
+
+        // Let child classes set up authorization paths
+        // setupAuthorization(http);
+
+        http.addFilterBefore(jsonWebTokenFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+}
+</code></pre><p>这样一个简单的权限认证系统就完成了。</p>
+<p>但是项目中有更精细的需求，如登录后我想要拿到用户所在公司信息等，技术上来讲就是token解析后的对象中有更多的属性也需要一并交给spring security管理，则我们可以通过继承org.springframework.security.core.userdetails.User类来实现我们登录后的信息提取。</p>
+<pre><code>/**
+ * Author：xiongzhan
+ * Description：自定义UserDetails
+ * Date: 2018-07-28 23:07
+ */
+@Data
+public class CustomizeUserDetails extends User {
+
+    private String lenderId;
+
+    private String productCode;
+
+    public CustomizeUserDetails(String username, String password, Collection&lt;? extends GrantedAuthority&gt; authorities, String lenderId, String productCode) {
+        super(username, password, authorities);
+        this.setLenderId(lenderId);
+        this.setProductCode(productCode);
+    }
+}
+</code></pre><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>模拟一个登录请求，生成token,然后带着token请求资源就可以从SecurityContextHolder中获取到我们想要的登录用户的其他信息。<br><img src="https://i.imgur.com/znBm9wz.png" alt=""></p>
+<p>测试完成<br><img src="https://i.imgur.com/HkFxoJD.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/springboot/" rel="tag"># springboot</a>
+          
+            <a href="/tags/JWT/" rel="tag"># JWT</a>
+          
+            <a href="/tags/spring-security/" rel="tag"># spring security</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/java-selenium-phantomjs爬虫cookie转换.html" rel="next" title="java+selenium+phantomjs爬虫cookie转换">
+                <i class="fa fa-chevron-left"></i> java+selenium+phantomjs爬虫cookie转换
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="微醺小熊" />
+            
+              <p class="site-author-name" itemprop="name">微醺小熊</p>
+              <p class="site-description motion-element" itemprop="description">学海无涯，回头是岸</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是JWT"><span class="nav-number">1.</span> <span class="nav-text">什么是JWT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Header"><span class="nav-number">1.1.</span> <span class="nav-text">Header</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Payload"><span class="nav-number">1.2.</span> <span class="nav-text">Payload</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Signature"><span class="nav-number">1.3.</span> <span class="nav-text">Signature</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#授权应用"><span class="nav-number">1.4.</span> <span class="nav-text">授权应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Boot下的JWT实现"><span class="nav-number">2.</span> <span class="nav-text">Spring Boot下的JWT实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#首先引入相关依赖"><span class="nav-number">2.1.</span> <span class="nav-text">首先引入相关依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部分代码搬运地址这里"><span class="nav-number">2.2.</span> <span class="nav-text">部分代码搬运地址这里</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Security配置"><span class="nav-number">2.3.</span> <span class="nav-text">Spring Security配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">2.4.</span> <span class="nav-text">测试</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">微醺小熊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"pluginJsPath":"lib/","pluginRootPath":"live2dw/"});</script></body>
+</html>

@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta name="baidu-site-verification" content="mFbtePyYMA" />
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="linux,elastic search,logstash,kibana," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="ELK简介 ELK是由Elasticsearch、Logstash、Kibana这3个软件的缩写 Elasticsearch是一个分布式搜索分析引擎，稳定、可水平扩展、易于管理是它的主要设计初衷 Logstash是一个灵活的数据收集、加工和传输的管道软件 Kibana是一个数据可视化平台，可以通过将数据转化为酷炫而强大的图像而实现与数据的交互将三者的收集加工，存储分析和可视转化整合在一起就形成了">
+<meta name="keywords" content="linux,elastic search,logstash,kibana">
+<meta property="og:type" content="article">
+<meta property="og:title" content="elk环境搭建">
+<meta property="og:url" content="http://limic.top/elk环境搭建.html">
+<meta property="og:site_name" content="微醺小熊">
+<meta property="og:description" content="ELK简介 ELK是由Elasticsearch、Logstash、Kibana这3个软件的缩写 Elasticsearch是一个分布式搜索分析引擎，稳定、可水平扩展、易于管理是它的主要设计初衷 Logstash是一个灵活的数据收集、加工和传输的管道软件 Kibana是一个数据可视化平台，可以通过将数据转化为酷炫而强大的图像而实现与数据的交互将三者的收集加工，存储分析和可视转化整合在一起就形成了">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/eVJeTuB.png">
+<meta property="og:updated_time" content="2018-08-05T03:43:01.711Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="elk环境搭建">
+<meta name="twitter:description" content="ELK简介 ELK是由Elasticsearch、Logstash、Kibana这3个软件的缩写 Elasticsearch是一个分布式搜索分析引擎，稳定、可水平扩展、易于管理是它的主要设计初衷 Logstash是一个灵活的数据收集、加工和传输的管道软件 Kibana是一个数据可视化平台，可以通过将数据转化为酷炫而强大的图像而实现与数据的交互将三者的收集加工，存储分析和可视转化整合在一起就形成了">
+<meta name="twitter:image" content="https://i.imgur.com/eVJeTuB.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://limic.top/elk环境搭建.html"/>
+
+
+
+
+
+  <title>elk环境搭建 | 微醺小熊</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/findfz/"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png" alt="Fork me on GitHub"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">微醺小熊</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">个人博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://limic.top/elk环境搭建.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="微醺小熊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="微醺小熊">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">elk环境搭建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-09T22:42:42+08:00">
+                2018-07-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/日志/" itemprop="url" rel="index">
+                    <span itemprop="name">日志</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="ELK简介"><a href="#ELK简介" class="headerlink" title="ELK简介"></a>ELK简介</h2><blockquote>
+<p>ELK是由Elasticsearch、Logstash、Kibana这3个软件的缩写</p>
+<p>Elasticsearch是一个分布式搜索分析引擎，稳定、可水平扩展、易于管理是它的主要设计初衷</p>
+<p>Logstash是一个灵活的数据收集、加工和传输的管道软件</p>
+<p>Kibana是一个数据可视化平台，可以通过将数据转化为酷炫而强大的图像而实现与数据的交互将三者的收集加工，存储分析和可视转化整合在一起就形成了 ELK </p>
+</blockquote>
+<h2 id="ELK流程"><a href="#ELK流程" class="headerlink" title="ELK流程"></a>ELK流程</h2><p>ELK的流程是这样的:Logback-&gt;Logstash-&gt;（Elasticsearch<->Kibana）</-></p>
+<pre><code>应用程序产生出日志，由logback日志框架进行处理
+
+将日志数据输出到Logstash中
+
+Logstash再将数据输出到Elasticsearch中
+
+Elasticsearch再与Kibana相结合展示给用户
+</code></pre><h2 id="ELK安装"><a href="#ELK安装" class="headerlink" title="ELK安装"></a>ELK安装</h2><h3 id="elastic-search安装"><a href="#elastic-search安装" class="headerlink" title="elastic search安装"></a>elastic search安装</h3><h4 id="下载地址-https-artifacts-elastic-co-downloads-elasticsearch-elasticsearch-5-3-1-tar-gz"><a href="#下载地址-https-artifacts-elastic-co-downloads-elasticsearch-elasticsearch-5-3-1-tar-gz" class="headerlink" title="下载地址:https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.3.1.tar.gz"></a>下载地址:<a href="https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.3.1.tar.gz" target="_blank" rel="noopener">https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.3.1.tar.gz</a></h4><h4 id="解压文件"><a href="#解压文件" class="headerlink" title="解压文件"></a>解压文件</h4><pre><code>解压至/usr/local/目录下
+tar -zxvf /usr/local/elasticsearch-5.3.1.tar.gz -C /usr/local/
+cd elasticsearch-5.3.1/ 
+</code></pre><h4 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h4><h4 id="elasticsearch-5-3-1-config-elasticsearch-yml"><a href="#elasticsearch-5-3-1-config-elasticsearch-yml" class="headerlink" title="elasticsearch-5.3.1/config/elasticsearch.yml"></a>elasticsearch-5.3.1/config/elasticsearch.yml</h4><pre><code># 数据目录
+path.data: /data/elk/data
+
+# logs 目录
+path.logs: /data/elk/logs
+
+# 修改一下ES的监听地址，这样别的机器也可以访问,默认只能本机访问
+# ---------------------------------- Network -----------------------------------
+#
+# Set the bind address to a specific IP (IPv4 or IPv6):
+#
+network.host: 0.0.0.0
+
+# 默认的端口号
+http.port: 9200
+</code></pre><h4 id="启动ElasticSearch5版本要非root用户，需要新建一个用户来启动Elastic-Search"><a href="#启动ElasticSearch5版本要非root用户，需要新建一个用户来启动Elastic-Search" class="headerlink" title="启动ElasticSearch5版本要非root用户，需要新建一个用户来启动Elastic Search"></a>启动ElasticSearch5版本要非root用户，需要新建一个用户来启动Elastic Search</h4><pre><code>useradd elk         #创建用户elk
+groupadd elk        #创建组elk
+useradd elk -g elk  #将用户添加到组
+
+mkdir -pv  /data/elk/{data,logs} # 创建数据和日志目录
+
+修改文件所有者
+chown -R elk:elk /data/elk/
+chown -R elk:elk /usr/local/elasticsearch-5.3.1/
+</code></pre><h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><pre><code>su - elk
+./bin/elasticsearch
+</code></pre><h4 id="如果报错”max-virtual-memory-areas-vm-maxmapcount-65530-is-too-low”，要运行下面的命令。"><a href="#如果报错”max-virtual-memory-areas-vm-maxmapcount-65530-is-too-low”，要运行下面的命令。" class="headerlink" title="如果报错”max virtual memory areas vm.maxmapcount [65530] is too low”，要运行下面的命令。"></a>如果报错”max virtual memory areas vm.maxmapcount [65530] is too low”，要运行下面的命令。</h4><pre><code>sudo sysctl -w vm.max_map_count=262144
+</code></pre><h4 id="如果一切正常，Elastic-就会在默认的9200端口运行。"><a href="#如果一切正常，Elastic-就会在默认的9200端口运行。" class="headerlink" title="如果一切正常，Elastic 就会在默认的9200端口运行。"></a>如果一切正常，Elastic 就会在默认的9200端口运行。</h4><pre><code>$ curl localhost:9200
+
+{
+  &quot;name&quot; : &quot;atntrTf&quot;,
+  &quot;cluster_name&quot; : &quot;elasticsearch&quot;,
+  &quot;cluster_uuid&quot; : &quot;tf9250XhQ6ee4h7YI11anA&quot;,
+  &quot;version&quot; : {
+    &quot;number&quot; : &quot;5.3.1&quot;,
+    &quot;build_hash&quot; : &quot;19c13d0&quot;,
+    &quot;build_date&quot; : &quot;2018-07-09T22:57:24.823Z&quot;,
+    &quot;build_snapshot&quot; : false,
+    &quot;lucene_version&quot; : &quot;6.6.0&quot;
+  },
+  &quot;tagline&quot; : &quot;You Know, for Search&quot;
+}
+</code></pre><h3 id="logstash安装"><a href="#logstash安装" class="headerlink" title="logstash安装"></a>logstash安装</h3><h4 id="下载地址-https-artifacts-elastic-co-downloads-logstash-logstash-5-3-1-tar-gz"><a href="#下载地址-https-artifacts-elastic-co-downloads-logstash-logstash-5-3-1-tar-gz" class="headerlink" title="下载地址:https://artifacts.elastic.co/downloads/logstash/logstash-5.3.1.tar.gz"></a>下载地址:<a href="https://artifacts.elastic.co/downloads/logstash/logstash-5.3.1.tar.gz" target="_blank" rel="noopener">https://artifacts.elastic.co/downloads/logstash/logstash-5.3.1.tar.gz</a></h4><pre><code>解压至/usr/local/目录下
+
+ tar -zxvf /usr/local/src/elasticsearch-5.3.1.tar.gz  -C /usr/local/
+</code></pre><p>首先，我们通过运行最基本的Logstash管道来测试您的Logstash安装。<br>Logstash管道有两个必需的元素，input并且output，以及一个可选的元素，filter。输入插件消耗来自源的数据，过滤器插件会按照您指定的方式修改数据，并且输出插件将数据写入到目的地。</p>
+<pre><code>/usr/local/logstash-5.3.1/bin/logstash -e &apos;input { stdin { } } output { stdout {} }&apos;
+Sending Logstash&apos;s logs to /usr/local/logstash-5.3.1/logs     which is now configured via log4j2.properties
+[2018-07-09T23:30:10,900][INFO ][logstash.pipeline        ]     Starting pipeline {&quot;id&quot;=&gt;&quot;main&quot;, &quot;pipeline.workers&quot;=&gt;1,       
+&quot;pipeline.batch.size&quot;=&gt;125, 
+&quot;pipeline.batch.delay&quot;=&gt;5,         &quot;pipeline.max_inflight&quot;=&gt;125}
+The stdin plugin is now waiting for input:
+[2018-07-09T23:30:12,968][INFO ][logstash.pipeline        ]         Pipeline main started
+[2018-07-09T23:30:13,064][INFO ][logstash.agent           ]        Successfully started Logstash API endpoint {:port=&gt;9600}
+hello world
+2018-07-09T23:30:41.447Z localhost hello world
+</code></pre><p>可以看到，我们输入什么内容logstash按照某种格式输出，其中-e参数参数允许Logstash直接通过命令行接受设置。这点尤其快速的帮助我们反复的测试配置是否正确而不用写配置文件。使用ctrl-c命令可以退出之前运行的Logstash。</p>
+<p>使用-e参数在命令行中指定配置是很常用的方式，不过如果需要配置更多设置则需要很长的内容。这种情况，我们首先创建一个简单的配置文件，并且指定logstash使用这个配置文件。 例如：在 logstash 安装目录下(/usr/local/logstash-5.3.1/config)创建一个“基本配置”测试文件 logstash-simple.conf， 文件内容如下：</p>
+<h4 id="创建配置文件"><a href="#创建配置文件" class="headerlink" title="创建配置文件"></a>创建配置文件</h4><p>cat logstash-simple.conf<br>input { stdin { } }<br>output {<br>    stdout { codec=&gt; rubydebug }<br>}<br>Logstash 使用 input 和 output 定义收集日志时的输入和输出的相关配置，本例中 input 定义了一个叫 “stdin” 的 input ， output 定义一个叫 “stdout” 的 output 。无论我们输入什么字符， Logstash 都会按照某种格式来返回我们输入的字符，其中 output 被定义为 “stdout” 并使用了 codec 参数来指定 logstash 输出格式。</p>
+<p>使用logstash的-f参数来读取配置文件，执行如下开始进行测试：</p>
+<h4 id="启动-1"><a href="#启动-1" class="headerlink" title="启动"></a>启动</h4><p>/usr/local/logstash-5.3.1/bin/logstash -f  /usr/local/logstash-5.3.1/config/logstash-simple.conf </p>
+<pre><code>Sending Logstash&apos;s logs to /usr/local/logstash-5.3.1/logs which is now configured via log4j2.properties
+[2018-07-09T23:36:43,294][INFO ][logstash.pipeline        ] Starting pipeline {&quot;id&quot;=&gt;&quot;main&quot;, &quot;pipeline.workers&quot;=&gt;1, &quot;pipeline.batch.size&quot;=&gt;125, &quot;pipeline.batch.delay&quot;=&gt;5, &quot;pipeline.max_inflight&quot;=&gt;125}
+[2018-07-09T23:36:43,939][INFO ][logstash.pipeline        ] Pipeline main started
+The stdin plugin is now waiting for input:
+[2018-07-09T23:36:44,674][INFO ][logstash.agent           ] Successfully started Logstash API endpoint {:port=&gt;9600}
+hello world
+{
+&quot;@timestamp&quot; =&gt; 2018-07-09T23:36:45.526Z,
+  &quot;@version&quot; =&gt; &quot;1&quot;,
+      &quot;host&quot; =&gt; &quot;localhost&quot;,
+   &quot;message&quot; =&gt; &quot;hello world!&quot;
+}
+</code></pre><h4 id="Elasticsearch-和-Logstash-来收集日志数据"><a href="#Elasticsearch-和-Logstash-来收集日志数据" class="headerlink" title="Elasticsearch 和 Logstash 来收集日志数据"></a>Elasticsearch 和 Logstash 来收集日志数据</h4><p>接下来我们在 logstash 安装目录下创建一个用于测试 logstash 使用 elasticsearch 作为 logstash 的后端的测试文件 logstash-test.conf，该文件中定义了stdout和elasticsearch作为output，这样的“多重输出”即保证输出结果显示到屏幕上，同时也输出到elastisearch中。<br>前提要保证elasticsearch和logstash都正常启动（需要先启动elasticsearch，再启动logstash）</p>
+<pre><code>cat logstash-test.conf
+input { stdin { } }
+output {
+    elasticsearch {hosts =&gt; &quot;192.168.30.132:9200&quot; } #elasticsearch服务地址
+    stdout { codec=&gt; rubydebug }
+}
+</code></pre><p>开启服务，执行如下命令：</p>
+<pre><code>/usr/local/logstash-5.3.1/bin/logstash  -f /usr/local/logstash-5.3.1/config/logstash-test.conf 
+</code></pre><p>我们可以使用 curl 命令发送请求来查看 ES 是否接收到了数据：</p>
+<pre><code>curl &apos;http://192.168.30.132:9200/_search?pretty&apos;
+
+返回结果：
+
+{
+    &quot;took&quot; : 13,
+    &quot;timed_out&quot; : false,
+    &quot;_shards&quot; : {
+        &quot;total&quot; : 1,
+        &quot;successful&quot; : 1,
+        &quot;failed&quot; : 0
+    },
+    &quot;hits&quot; : {
+        &quot;total&quot; : 1,
+        &quot;max_score&quot; : 1.0,
+        &quot;hits&quot; : [
+          {
+            &quot;_index&quot; : &quot;.kibana&quot;,
+            &quot;_type&quot; : &quot;config&quot;,
+            &quot;_id&quot; : &quot;5.3.1&quot;,
+            &quot;_score&quot; : 1.0,
+            &quot;_source&quot; : {
+                &quot;buildNum&quot; : 14844
+            }
+        }
+      ]
+    }
+}    
+</code></pre><p>至此，你已经成功利用 Elasticsearch 和 Logstash 来收集日志数据了。</p>
+<h3 id="kibana安装"><a href="#kibana安装" class="headerlink" title="kibana安装"></a>kibana安装</h3><h4 id="下载地址-https-artifacts-elastic-co-downloads-kibana-kibana-5-3-1-linux-x86-64-tar-gz"><a href="#下载地址-https-artifacts-elastic-co-downloads-kibana-kibana-5-3-1-linux-x86-64-tar-gz" class="headerlink" title="下载地址:https://artifacts.elastic.co/downloads/kibana/kibana-5.3.1-linux-x86_64.tar.gz"></a>下载地址:<a href="https://artifacts.elastic.co/downloads/kibana/kibana-5.3.1-linux-x86_64.tar.gz" target="_blank" rel="noopener">https://artifacts.elastic.co/downloads/kibana/kibana-5.3.1-linux-x86_64.tar.gz</a></h4><pre><code>解压至/usr/local/下
+tar -zxvf /usr/local/src/kibana-5.3.1-linux-x86_64.tar.gz  -C /usr/local/
+</code></pre><h4 id="配置kibana"><a href="#配置kibana" class="headerlink" title="配置kibana"></a>配置kibana</h4><p>编辑kibana.yml配置文件</p>
+<pre><code>vi /usr/local/kibana-5.3.1-linux-x86_64/config/kibana.yml 
+
+修改以下参数：
+server.port: 5601           #开启默认端口5601
+server.host: “192.168.30.132”   #站点地址
+elasticsearch.url: http://192.168.30.132:9200   #指向elasticsearch服务的ip地址
+kibana.index: “.kibana”
+</code></pre><h4 id="启动-2"><a href="#启动-2" class="headerlink" title="启动"></a>启动</h4><pre><code>/usr/local/kibana-5.3.1-linux-x86_64/bin/kibana
+</code></pre><h4 id="浏览器访问"><a href="#浏览器访问" class="headerlink" title="浏览器访问"></a>浏览器访问</h4><pre><code>http://192.168.30.132:5601
+</code></pre><h4 id="配置ES索引"><a href="#配置ES索引" class="headerlink" title="配置ES索引"></a>配置ES索引</h4><p>kibana第一次使用时，会要求创建index，只要按照默认值即可。</p>
+<p>注意：<br>首次会提示没有索引。。。。</p>
+<p>首先需要加上我们刚刚建立的索引index =&gt; “logstash–%{+YYYY-MM}” 点击setting-&gt;indices, 在这里我们可以Configure an index pattern, 也就是说可以配置 正则匹配的index,</p>
+<pre><code>cat logstash-simple.conf
+//从文件目录获取日志
+input {
+    file {
+        path =&gt; &quot;/var/log/messages&quot;
+        type =&gt; &quot;system&quot;
+        start_position =&gt; &quot;beginning&quot;    
+    }
+}
+output {
+    elasticsearch {
+        action =&gt; &quot;index&quot;            # 在ES上操作index
+        hosts  =&gt; &quot;192.168.30.132:9200&quot;   # ES地址
+        index  =&gt; &quot;logstash-%{+YYYY-MM}&quot;   #索引名
+    }
+}
+</code></pre><p>可以看到默认的index是”logstash-*”, 默认是从logstash导出的数据, 因为我们在logstash中配置的索引就是logstash开头的，所以这里我们保持默认不变.</p>
+<p>下面还有一个Time-field name, 一般来说time都是一个必要的字段, 并且这个字段的类型是date类型! 不是string!!! 如果没有时间字段, 那么将上面的” Index contains time-based events” 取消就OK.</p>
+<h3 id="项目实战摘要"><a href="#项目实战摘要" class="headerlink" title="项目实战摘要"></a>项目实战摘要</h3><h4 id="logback-xml配置按天输出日志文件"><a href="#logback-xml配置按天输出日志文件" class="headerlink" title="logback.xml配置按天输出日志文件"></a>logback.xml配置按天输出日志文件</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;configuration&gt;
+    &lt;include resource=&quot;org/springframework/boot/logging/logback/base.xml&quot;/&gt;
+    &lt;jmxConfigurator/&gt;
+    &lt;!-- 日志路径 用profile进行区分 --&gt;
+    &lt;appender name=&quot;Logfile&quot; class=&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;&gt;
+        &lt;rollingPolicy class=&quot;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&quot;&gt;
+            &lt;!--日志文件输出的文件名--&gt;
+            &lt;FileNamePattern&gt;/apps/loan_logs/%d{yyyy-MM-dd}/core-service.%i.log&lt;/FileNamePattern&gt;
+            &lt;!--日志文件保留10天--&gt;
+            &lt;MaxHistory&gt;10&lt;/MaxHistory&gt;
+            &lt;timeBasedFileNamingAndTriggeringPolicy
+                    class=&quot;ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP&quot;&gt;
+                &lt;!-- 最大64MB 超过最大值，会重新建一个文件--&gt;
+                &lt;maxFileSize&gt;64 MB&lt;/maxFileSize&gt;
+            &lt;/timeBasedFileNamingAndTriggeringPolicy&gt;
+        &lt;/rollingPolicy&gt;
+        &lt;encoder class=&quot;ch.qos.logback.classic.encoder.PatternLayoutEncoder&quot;&gt;
+            &lt;!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符--&gt;
+            &lt;pattern&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n&lt;/pattern&gt;
+        &lt;/encoder&gt;
+    &lt;/appender&gt;
+
+    &lt;root level=&quot;info&quot;&gt;
+        &lt;appender-ref ref=&quot;Logfile&quot; /&gt;
+    &lt;/root&gt;
+&lt;/configuration&gt;
+</code></pre><p><img src="https://i.imgur.com/eVJeTuB.png" alt=""></p>
+<h4 id="docker集群内日志输出"><a href="#docker集群内日志输出" class="headerlink" title="docker集群内日志输出"></a>docker集群内日志输出</h4><pre><code>bear-service:
+    image: registry-vpc.cn-beijing.aliyuncs.com/bear/bear-service:0.0.1
+    restart: always
+    volumes:
+        // 这里是使用绝对路径挂载数据卷，前面/apps/loan_logs是宿主机的，后面/apps/loan_logs是容器内部的
+        // 也就是说将宿主机的/apps/loan_logs隐射到容器内部的/apps/loan_logs
+        - &apos;/apps/loan_logs:/apps/loan_logs&apos;
+    environment:
+        - user.timezone=GMT+08
+        - PROFILE=prod
+
+    //标签 aliyun.scale: 定义了容器副本数量
+    //标签 aliyun.routing.port_xxxx : 定义的虚拟域名访问方式
+    labels:
+        //scale设置为n，则创建n个容器
+        aliyun.scale: &apos;1&apos;
+        aliyun.routing.port_9000: bear
+    links:
+      - discovery
+      - config
+      - redis
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+            <a href="/tags/elastic-search/" rel="tag"># elastic search</a>
+          
+            <a href="/tags/logstash/" rel="tag"># logstash</a>
+          
+            <a href="/tags/kibana/" rel="tag"># kibana</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/docker-mysql使用文档.html" rel="next" title="docker－mysql使用文档">
+                <i class="fa fa-chevron-left"></i> docker－mysql使用文档
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/druid数据库密码加解密.html" rel="prev" title="druid数据库密码加解密">
+                druid数据库密码加解密 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="微醺小熊" />
+            
+              <p class="site-author-name" itemprop="name">微醺小熊</p>
+              <p class="site-description motion-element" itemprop="description">学海无涯，回头是岸</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ELK简介"><span class="nav-number">1.</span> <span class="nav-text">ELK简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ELK流程"><span class="nav-number">2.</span> <span class="nav-text">ELK流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ELK安装"><span class="nav-number">3.</span> <span class="nav-text">ELK安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#elastic-search安装"><span class="nav-number">3.1.</span> <span class="nav-text">elastic search安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载地址-https-artifacts-elastic-co-downloads-elasticsearch-elasticsearch-5-3-1-tar-gz"><span class="nav-number">3.1.1.</span> <span class="nav-text">下载地址:https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.3.1.tar.gz</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解压文件"><span class="nav-number">3.1.2.</span> <span class="nav-text">解压文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改配置文件"><span class="nav-number">3.1.3.</span> <span class="nav-text">修改配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#elasticsearch-5-3-1-config-elasticsearch-yml"><span class="nav-number">3.1.4.</span> <span class="nav-text">elasticsearch-5.3.1/config/elasticsearch.yml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动ElasticSearch5版本要非root用户，需要新建一个用户来启动Elastic-Search"><span class="nav-number">3.1.5.</span> <span class="nav-text">启动ElasticSearch5版本要非root用户，需要新建一个用户来启动Elastic Search</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动"><span class="nav-number">3.1.6.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如果报错”max-virtual-memory-areas-vm-maxmapcount-65530-is-too-low”，要运行下面的命令。"><span class="nav-number">3.1.7.</span> <span class="nav-text">如果报错”max virtual memory areas vm.maxmapcount [65530] is too low”，要运行下面的命令。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如果一切正常，Elastic-就会在默认的9200端口运行。"><span class="nav-number">3.1.8.</span> <span class="nav-text">如果一切正常，Elastic 就会在默认的9200端口运行。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#logstash安装"><span class="nav-number">3.2.</span> <span class="nav-text">logstash安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载地址-https-artifacts-elastic-co-downloads-logstash-logstash-5-3-1-tar-gz"><span class="nav-number">3.2.1.</span> <span class="nav-text">下载地址:https://artifacts.elastic.co/downloads/logstash/logstash-5.3.1.tar.gz</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建配置文件"><span class="nav-number">3.2.2.</span> <span class="nav-text">创建配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动-1"><span class="nav-number">3.2.3.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Elasticsearch-和-Logstash-来收集日志数据"><span class="nav-number">3.2.4.</span> <span class="nav-text">Elasticsearch 和 Logstash 来收集日志数据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kibana安装"><span class="nav-number">3.3.</span> <span class="nav-text">kibana安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载地址-https-artifacts-elastic-co-downloads-kibana-kibana-5-3-1-linux-x86-64-tar-gz"><span class="nav-number">3.3.1.</span> <span class="nav-text">下载地址:https://artifacts.elastic.co/downloads/kibana/kibana-5.3.1-linux-x86_64.tar.gz</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置kibana"><span class="nav-number">3.3.2.</span> <span class="nav-text">配置kibana</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动-2"><span class="nav-number">3.3.3.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#浏览器访问"><span class="nav-number">3.3.4.</span> <span class="nav-text">浏览器访问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置ES索引"><span class="nav-number">3.3.5.</span> <span class="nav-text">配置ES索引</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#项目实战摘要"><span class="nav-number">3.4.</span> <span class="nav-text">项目实战摘要</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#logback-xml配置按天输出日志文件"><span class="nav-number">3.4.1.</span> <span class="nav-text">logback.xml配置按天输出日志文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#docker集群内日志输出"><span class="nav-number">3.4.2.</span> <span class="nav-text">docker集群内日志输出</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">微醺小熊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"pluginJsPath":"lib/","pluginRootPath":"live2dw/"});</script></body>
+</html>
