@@ -82,28 +82,28 @@
 
 
 
-<meta name="description" content="单节点数据库的弊病大型互联网程序用户群体庞大，所以架构必须要特殊设计 单节点的数据库无法满足性能上的要求 单节点的数据库没有冗余设计，无法满足高可用 常见mysql集群方案 PXC原理 PXC的强一致性 安装PXC集群，负载均衡，双机热备安装PXC镜像   1docker pull percona/percona-xtradb-cluster 为PXC镜像改名   123docker tag pe">
+<meta name="description" content="单节点数据库的弊病大型互联网程序用户群体庞大，所以架构必须要特殊设计 单节点的数据库无法满足性能上的要求 单节点的数据库没有冗余设计，无法满足高可用 常见mysql集群方案  PXC原理  PXC的强一致性  安装PXC集群安装PXC镜像   1docker pull percona/percona-xtradb-cluster 为PXC镜像改名   123docker tag percona/p">
 <meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql集群搭建">
 <meta property="og:url" content="http://limic.top/mysql集群搭建.html">
 <meta property="og:site_name" content="微醺小熊">
-<meta property="og:description" content="单节点数据库的弊病大型互联网程序用户群体庞大，所以架构必须要特殊设计 单节点的数据库无法满足性能上的要求 单节点的数据库没有冗余设计，无法满足高可用 常见mysql集群方案 PXC原理 PXC的强一致性 安装PXC集群，负载均衡，双机热备安装PXC镜像   1docker pull percona/percona-xtradb-cluster 为PXC镜像改名   123docker tag pe">
+<meta property="og:description" content="单节点数据库的弊病大型互联网程序用户群体庞大，所以架构必须要特殊设计 单节点的数据库无法满足性能上的要求 单节点的数据库没有冗余设计，无法满足高可用 常见mysql集群方案  PXC原理  PXC的强一致性  安装PXC集群安装PXC镜像   1docker pull percona/percona-xtradb-cluster 为PXC镜像改名   123docker tag percona/p">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://limic.top/Users/xiongzhan/Documents/pics/WX20180818-222053@2x.png">
-<meta property="og:image" content="http://limic.top/Users/xiongzhan/Documents/pics/WX20180818-222549@2x.png">
-<meta property="og:image" content="http://limic.top/Users/xiongzhan/Documents/pics/WX20180818-222755@2x.png">
-<meta property="og:image" content="http://limic.top/Users/xiongzhan/Documents/pics/image1.png">
-<meta property="og:image" content="http://limic.top/Users/xiongzhan/Documents/pics/image2.png">
-<meta property="og:image" content="http://limic.top/Users/xiongzhan/Documents/pics/WX20180818-225333@2x.png">
-<meta property="og:image" content="http://limic.top/Users/xiongzhan/Documents/pics/WX20180818-225402@2x.png">
-<meta property="og:image" content="http://limic.top/Users/xiongzhan/Documents/pics/image3.png">
-<meta property="og:image" content="http://limic.top/Users/xiongzhan/Documents/pics/WX20180818-230203@2x.png">
-<meta property="og:updated_time" content="2018-08-18T15:12:57.509Z">
+<meta property="og:image" content="http://limic.top/mysql集群搭建/WX20180818-222053@2x.png">
+<meta property="og:image" content="http://limic.top/mysql集群搭建/WX20180818-222549@2x.png">
+<meta property="og:image" content="http://limic.top/mysql集群搭建/WX20180818-222755@2x.png">
+<meta property="og:image" content="http://limic.top/mysql集群搭建/image1.png">
+<meta property="og:image" content="http://limic.top/mysql集群搭建/image2.png">
+<meta property="og:image" content="http://limic.top/mysql集群搭建/WX20180818-225333@2x.png">
+<meta property="og:image" content="http://limic.top/mysql集群搭建/WX20180818-225402@2x.png">
+<meta property="og:image" content="http://limic.top/mysql集群搭建/image3.png">
+<meta property="og:image" content="http://limic.top/mysql集群搭建/WX20180818-230203@2x.png">
+<meta property="og:updated_time" content="2018-08-18T15:41:13.228Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql集群搭建">
-<meta name="twitter:description" content="单节点数据库的弊病大型互联网程序用户群体庞大，所以架构必须要特殊设计 单节点的数据库无法满足性能上的要求 单节点的数据库没有冗余设计，无法满足高可用 常见mysql集群方案 PXC原理 PXC的强一致性 安装PXC集群，负载均衡，双机热备安装PXC镜像   1docker pull percona/percona-xtradb-cluster 为PXC镜像改名   123docker tag pe">
-<meta name="twitter:image" content="http://limic.top/Users/xiongzhan/Documents/pics/WX20180818-222053@2x.png">
+<meta name="twitter:description" content="单节点数据库的弊病大型互联网程序用户群体庞大，所以架构必须要特殊设计 单节点的数据库无法满足性能上的要求 单节点的数据库没有冗余设计，无法满足高可用 常见mysql集群方案  PXC原理  PXC的强一致性  安装PXC集群安装PXC镜像   1docker pull percona/percona-xtradb-cluster 为PXC镜像改名   123docker tag percona/p">
+<meta name="twitter:image" content="http://limic.top/mysql集群搭建/WX20180818-222053@2x.png">
 
 
 
@@ -384,10 +384,10 @@
         <h2 id="单节点数据库的弊病"><a href="#单节点数据库的弊病" class="headerlink" title="单节点数据库的弊病"></a>单节点数据库的弊病</h2><pre><code>大型互联网程序用户群体庞大，所以架构必须要特殊设计
 单节点的数据库无法满足性能上的要求
 单节点的数据库没有冗余设计，无法满足高可用
-</code></pre><h3 id="常见mysql集群方案"><a href="#常见mysql集群方案" class="headerlink" title="常见mysql集群方案"></a>常见mysql集群方案</h3><p><img src="/Users/xiongzhan/Documents/pics/WX20180818-222053@2x.png" alt=""></p>
-<h3 id="PXC原理"><a href="#PXC原理" class="headerlink" title="PXC原理"></a>PXC原理</h3><p><img src="/Users/xiongzhan/Documents/pics/WX20180818-222549@2x.png" alt=""></p>
-<h3 id="PXC的强一致性"><a href="#PXC的强一致性" class="headerlink" title="PXC的强一致性"></a>PXC的强一致性</h3><p><img src="/Users/xiongzhan/Documents/pics/WX20180818-222755@2x.png" alt=""></p>
-<h2 id="安装PXC集群，负载均衡，双机热备"><a href="#安装PXC集群，负载均衡，双机热备" class="headerlink" title="安装PXC集群，负载均衡，双机热备"></a>安装PXC集群，负载均衡，双机热备</h2><h3 id="安装PXC镜像"><a href="#安装PXC镜像" class="headerlink" title="安装PXC镜像"></a>安装PXC镜像</h3>   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull percona/percona-xtradb-cluster</span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="常见mysql集群方案"><a href="#常见mysql集群方案" class="headerlink" title="常见mysql集群方案"></a>常见mysql集群方案</h3><img src="/mysql集群搭建/WX20180818-222053@2x.png"> 
+<h3 id="PXC原理"><a href="#PXC原理" class="headerlink" title="PXC原理"></a>PXC原理</h3><img src="/mysql集群搭建/WX20180818-222549@2x.png"> 
+<h3 id="PXC的强一致性"><a href="#PXC的强一致性" class="headerlink" title="PXC的强一致性"></a>PXC的强一致性</h3><img src="/mysql集群搭建/WX20180818-222755@2x.png"> 
+<h2 id="安装PXC集群"><a href="#安装PXC集群" class="headerlink" title="安装PXC集群"></a>安装PXC集群</h2><h3 id="安装PXC镜像"><a href="#安装PXC镜像" class="headerlink" title="安装PXC镜像"></a>安装PXC镜像</h3>   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull percona/percona-xtradb-cluster</span><br></pre></td></tr></table></figure>
 <h3 id="为PXC镜像改名"><a href="#为PXC镜像改名" class="headerlink" title="为PXC镜像改名"></a>为PXC镜像改名</h3>   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker tag percona/percona-xtradb-cluster pxc</span><br><span class="line"></span><br><span class="line">docker rmi percona/percona-xtradb-cluster</span><br></pre></td></tr></table></figure>
 <h3 id="创建net1网段"><a href="#创建net1网段" class="headerlink" title="创建net1网段"></a>创建net1网段</h3>   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network create --subnet=172.18.0.0/24 net1</span><br></pre></td></tr></table></figure>
 <h3 id="创建5个数据卷"><a href="#创建5个数据卷" class="headerlink" title="创建5个数据卷"></a>创建5个数据卷</h3>   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker volume create --name v1</span><br><span class="line">docker volume create --name v2</span><br><span class="line">docker volume create --name v3</span><br><span class="line">docker volume create --name v4</span><br><span class="line">docker volume create --name v5</span><br></pre></td></tr></table></figure>
@@ -412,15 +412,17 @@ docker run -d -p 3309:3306 -e MYSQL_ROOT_PASSWORD=199272xz -e CLUSTER_NAME=PXC -
  docker run -d -p 3310:3306 -e MYSQL_ROOT_PASSWORD=199272xz -e CLUSTER_NAME=PXC -e XTRABACKUP_PASSWORD=199272xz -e CLUSTER_JOIN=node1 -v v4:/var/lib/mysql --privileged --name node4 --net=net1 --ip 172.18.0.5 pxc
 #创建第5个MySQL节点
  docker run -d -p 3311:3306 -e MYSQL_ROOT_PASSWORD=199272xz -e CLUSTER_NAME=PXC -e XTRABACKUP_PASSWORD=199272xz -e CLUSTER_JOIN=node1 -v v5:/var/lib/mysql --privileged --name node5 --net=net1 --ip 172.18.0.6 pxc
-</code></pre><h3 id="部分截图如下"><a href="#部分截图如下" class="headerlink" title="部分截图如下"></a>部分截图如下</h3><p> <img src="/Users/xiongzhan/Documents/pics/image1.png" alt=""><br> <img src="/Users/xiongzhan/Documents/pics/image2.png" alt="">   </p>
-<h2 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h2><p><img src="/Users/xiongzhan/Documents/pics/WX20180818-225333@2x.png" alt=""><br><img src="/Users/xiongzhan/Documents/pics/WX20180818-225402@2x.png" alt=""> </p>
+</code></pre><h3 id="部分截图如下"><a href="#部分截图如下" class="headerlink" title="部分截图如下"></a>部分截图如下</h3> <img src="/mysql集群搭建/image1.png"> 
+ <img src="/mysql集群搭建/image2.png">    
+<h2 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h2><img src="/mysql集群搭建/WX20180818-225333@2x.png"> 
+<img src="/mysql集群搭建/WX20180818-225402@2x.png"> 
 <h3 id="创建haproxy镜像"><a href="#创建haproxy镜像" class="headerlink" title="创建haproxy镜像"></a>创建haproxy镜像</h3><pre><code>docker pull haproxy
 </code></pre><h3 id="创建haproxy容器"><a href="#创建haproxy容器" class="headerlink" title="创建haproxy容器"></a>创建haproxy容器</h3><pre><code>docker run -it -d -p 4001:8888 -p 4002:3306 -v /soft/haproxy:/usr/local/etc/haproxy --name ha1 --privileged --net=net1  --ip 172.18.0.7 haproxy
 </code></pre><h3 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h3><pre><code>docker exec -it ha1 bash
 </code></pre><h3 id="启动haproxy"><a href="#启动haproxy" class="headerlink" title="启动haproxy"></a>启动haproxy</h3><pre><code>haproxy -f /usr/local/etc/haproxy/haproxy.cfg
 </code></pre><h3 id="创建haproxy数据库账号（haproxy中间件需要这个账号登录数据库）"><a href="#创建haproxy数据库账号（haproxy中间件需要这个账号登录数据库）" class="headerlink" title="创建haproxy数据库账号（haproxy中间件需要这个账号登录数据库）"></a>创建haproxy数据库账号（haproxy中间件需要这个账号登录数据库）</h3><pre><code>create user &apos;haproxy&apos;@&apos;%&apos; identified by &apos;&apos;;  
-</code></pre><h3 id="查看集群状态"><a href="#查看集群状态" class="headerlink" title="查看集群状态"></a>查看集群状态</h3><p><img src="/Users/xiongzhan/Documents/pics/image3.png" alt=""></p>
-<h2 id="双机热备"><a href="#双机热备" class="headerlink" title="双机热备"></a>双机热备</h2><p><img src="/Users/xiongzhan/Documents/pics/WX20180818-230203@2x.png" alt=""></p>
+</code></pre><h3 id="查看集群状态"><a href="#查看集群状态" class="headerlink" title="查看集群状态"></a>查看集群状态</h3><img src="/mysql集群搭建/image3.png"> 
+<h2 id="双机热备"><a href="#双机热备" class="headerlink" title="双机热备"></a>双机热备</h2><img src="/mysql集群搭建/WX20180818-230203@2x.png"> 
 <h3 id="安装keepalived"><a href="#安装keepalived" class="headerlink" title="安装keepalived"></a>安装keepalived</h3><pre><code>apt-get update
 apt-get install keepalived
 </code></pre><h3 id="容器下启动keepalived"><a href="#容器下启动keepalived" class="headerlink" title="容器下启动keepalived"></a>容器下启动keepalived</h3><pre><code>root@d26c60189c76:/etc/keepalived# service keepalived start
@@ -604,7 +606,7 @@ PING 172.18.0.201 (172.18.0.201) 56(84) bytes of data.
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#单节点数据库的弊病"><span class="nav-number">1.</span> <span class="nav-text">单节点数据库的弊病</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常见mysql集群方案"><span class="nav-number">1.1.</span> <span class="nav-text">常见mysql集群方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PXC原理"><span class="nav-number">1.2.</span> <span class="nav-text">PXC原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PXC的强一致性"><span class="nav-number">1.3.</span> <span class="nav-text">PXC的强一致性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装PXC集群，负载均衡，双机热备"><span class="nav-number">2.</span> <span class="nav-text">安装PXC集群，负载均衡，双机热备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装PXC镜像"><span class="nav-number">2.1.</span> <span class="nav-text">安装PXC镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为PXC镜像改名"><span class="nav-number">2.2.</span> <span class="nav-text">为PXC镜像改名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建net1网段"><span class="nav-number">2.3.</span> <span class="nav-text">创建net1网段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建5个数据卷"><span class="nav-number">2.4.</span> <span class="nav-text">创建5个数据卷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建5节点的PXC集群"><span class="nav-number">2.5.</span> <span class="nav-text">创建5节点的PXC集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部分截图如下"><span class="nav-number">2.6.</span> <span class="nav-text">部分截图如下</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#负载均衡"><span class="nav-number">3.</span> <span class="nav-text">负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建haproxy镜像"><span class="nav-number">3.1.</span> <span class="nav-text">创建haproxy镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建haproxy容器"><span class="nav-number">3.2.</span> <span class="nav-text">创建haproxy容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进入容器"><span class="nav-number">3.3.</span> <span class="nav-text">进入容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动haproxy"><span class="nav-number">3.4.</span> <span class="nav-text">启动haproxy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建haproxy数据库账号（haproxy中间件需要这个账号登录数据库）"><span class="nav-number">3.5.</span> <span class="nav-text">创建haproxy数据库账号（haproxy中间件需要这个账号登录数据库）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看集群状态"><span class="nav-number">3.6.</span> <span class="nav-text">查看集群状态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双机热备"><span class="nav-number">4.</span> <span class="nav-text">双机热备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装keepalived"><span class="nav-number">4.1.</span> <span class="nav-text">安装keepalived</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容器下启动keepalived"><span class="nav-number">4.2.</span> <span class="nav-text">容器下启动keepalived</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#宿主机下测试"><span class="nav-number">4.3.</span> <span class="nav-text">宿主机下测试</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#单节点数据库的弊病"><span class="nav-number">1.</span> <span class="nav-text">单节点数据库的弊病</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常见mysql集群方案"><span class="nav-number">1.1.</span> <span class="nav-text">常见mysql集群方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PXC原理"><span class="nav-number">1.2.</span> <span class="nav-text">PXC原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PXC的强一致性"><span class="nav-number">1.3.</span> <span class="nav-text">PXC的强一致性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装PXC集群"><span class="nav-number">2.</span> <span class="nav-text">安装PXC集群</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装PXC镜像"><span class="nav-number">2.1.</span> <span class="nav-text">安装PXC镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为PXC镜像改名"><span class="nav-number">2.2.</span> <span class="nav-text">为PXC镜像改名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建net1网段"><span class="nav-number">2.3.</span> <span class="nav-text">创建net1网段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建5个数据卷"><span class="nav-number">2.4.</span> <span class="nav-text">创建5个数据卷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建5节点的PXC集群"><span class="nav-number">2.5.</span> <span class="nav-text">创建5节点的PXC集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部分截图如下"><span class="nav-number">2.6.</span> <span class="nav-text">部分截图如下</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#负载均衡"><span class="nav-number">3.</span> <span class="nav-text">负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建haproxy镜像"><span class="nav-number">3.1.</span> <span class="nav-text">创建haproxy镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建haproxy容器"><span class="nav-number">3.2.</span> <span class="nav-text">创建haproxy容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进入容器"><span class="nav-number">3.3.</span> <span class="nav-text">进入容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动haproxy"><span class="nav-number">3.4.</span> <span class="nav-text">启动haproxy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建haproxy数据库账号（haproxy中间件需要这个账号登录数据库）"><span class="nav-number">3.5.</span> <span class="nav-text">创建haproxy数据库账号（haproxy中间件需要这个账号登录数据库）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看集群状态"><span class="nav-number">3.6.</span> <span class="nav-text">查看集群状态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双机热备"><span class="nav-number">4.</span> <span class="nav-text">双机热备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装keepalived"><span class="nav-number">4.1.</span> <span class="nav-text">安装keepalived</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容器下启动keepalived"><span class="nav-number">4.2.</span> <span class="nav-text">容器下启动keepalived</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#宿主机下测试"><span class="nav-number">4.3.</span> <span class="nav-text">宿主机下测试</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -837,5 +839,5 @@ PING 172.18.0.201 (172.18.0.201) 56(84) bytes of data.
 
   
 
-<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"pluginJsPath":"lib/","pluginRootPath":"live2dw/"});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"live2d-widget-model-shizuku"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"pluginJsPath":"lib/","pluginRootPath":"live2dw/"});</script></body>
 </html>
