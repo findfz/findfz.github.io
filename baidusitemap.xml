@@ -120,28 +120,6 @@
 
     
   <url>
-    <loc>http://limic.top/Spring%20Boot%E9%9B%86%E6%88%90Mybatis.html</loc>
-    <lastmod>2018-08-05T03:43:01.712Z</lastmod>
-    <data>
-        <display>
-        <title>Spring Boot集成Mybatis</title>
-        <pubTime>2018-07-23T13:53:59.000Z</pubTime>
-        
-        <tag>springboot</tag>
-         
-        <tag>mybatis</tag>
-         
-         
-           
-             
-              <breadCrumb title="java" url="http://limic.top/categories/java/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://limic.top/druid%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AF%86%E7%A0%81%E5%8A%A0%E8%A7%A3%E5%AF%86.html</loc>
     <lastmod>2018-08-05T03:43:01.712Z</lastmod>
     <data>
@@ -201,6 +179,28 @@
         <tag>JWT</tag>
          
         <tag>spring security</tag>
+         
+         
+           
+             
+              <breadCrumb title="java" url="http://limic.top/categories/java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://limic.top/Spring%20Boot%E9%9B%86%E6%88%90Mybatis.html</loc>
+    <lastmod>2018-08-05T03:43:01.712Z</lastmod>
+    <data>
+        <display>
+        <title>Spring Boot集成Mybatis</title>
+        <pubTime>2018-07-23T13:53:59.000Z</pubTime>
+        
+        <tag>springboot</tag>
+         
+        <tag>mybatis</tag>
          
          
            
