@@ -82,19 +82,19 @@
 
 
 
-<meta name="description" content="带验证码爬虫登录随着爬虫技术的广泛应用，很多的网站也作了应对，比如最常见的令人头疼的字符验证码 我的思路是：使用selenium+phantomjs(chrome亦可)模拟登录，验证码通过截图获取，再进行验证码识别，识别后填充输入框，从而达到模拟登录的效果 字符验证码识别简单字符此类验证码可以通过ocr识别 java可以接第三方ocr服务，python也有开源的库pytesseract，其核心都是">
+<meta name="description" content="带验证码爬虫登录随着爬虫技术的广泛应用，很多的网站也作了应对，比如最常见的令人头疼的字符验证码 我的思路是：使用selenium+phantomjs(chrome亦可)模拟登录，验证码通过截图获取，再进行验证码识别，识别后填充输入框，从而达到模拟登录的效果 字符验证码识别简单字符此类验证码可以通过OCR识别 java可以接第三方OCR服务，python也有开源的库pytesseract，其核心都是">
 <meta name="keywords" content="验证码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="爬虫验证码登录">
 <meta property="og:url" content="http://limic.top/爬虫验证码登录.html">
 <meta property="og:site_name" content="微醺小熊">
-<meta property="og:description" content="带验证码爬虫登录随着爬虫技术的广泛应用，很多的网站也作了应对，比如最常见的令人头疼的字符验证码 我的思路是：使用selenium+phantomjs(chrome亦可)模拟登录，验证码通过截图获取，再进行验证码识别，识别后填充输入框，从而达到模拟登录的效果 字符验证码识别简单字符此类验证码可以通过ocr识别 java可以接第三方ocr服务，python也有开源的库pytesseract，其核心都是">
+<meta property="og:description" content="带验证码爬虫登录随着爬虫技术的广泛应用，很多的网站也作了应对，比如最常见的令人头疼的字符验证码 我的思路是：使用selenium+phantomjs(chrome亦可)模拟登录，验证码通过截图获取，再进行验证码识别，识别后填充输入框，从而达到模拟登录的效果 字符验证码识别简单字符此类验证码可以通过OCR识别 java可以接第三方OCR服务，python也有开源的库pytesseract，其核心都是">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://limic.top/爬虫验证码登录/captcha.png">
-<meta property="og:updated_time" content="2018-08-22T15:11:06.998Z">
+<meta property="og:updated_time" content="2018-08-22T15:13:49.334Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="爬虫验证码登录">
-<meta name="twitter:description" content="带验证码爬虫登录随着爬虫技术的广泛应用，很多的网站也作了应对，比如最常见的令人头疼的字符验证码 我的思路是：使用selenium+phantomjs(chrome亦可)模拟登录，验证码通过截图获取，再进行验证码识别，识别后填充输入框，从而达到模拟登录的效果 字符验证码识别简单字符此类验证码可以通过ocr识别 java可以接第三方ocr服务，python也有开源的库pytesseract，其核心都是">
+<meta name="twitter:description" content="带验证码爬虫登录随着爬虫技术的广泛应用，很多的网站也作了应对，比如最常见的令人头疼的字符验证码 我的思路是：使用selenium+phantomjs(chrome亦可)模拟登录，验证码通过截图获取，再进行验证码识别，识别后填充输入框，从而达到模拟登录的效果 字符验证码识别简单字符此类验证码可以通过OCR识别 java可以接第三方OCR服务，python也有开源的库pytesseract，其核心都是">
 <meta name="twitter:image" content="http://limic.top/爬虫验证码登录/captcha.png">
 
 
@@ -364,8 +364,8 @@
       
         <h2 id="带验证码爬虫登录"><a href="#带验证码爬虫登录" class="headerlink" title="带验证码爬虫登录"></a>带验证码爬虫登录</h2><p>随着爬虫技术的广泛应用，很多的网站也作了应对，比如最常见的令人头疼的字符验证码</p>
 <p>我的思路是：使用selenium+phantomjs(chrome亦可)模拟登录，验证码通过截图获取，再进行验证码识别，识别后填充输入框，从而达到模拟登录的效果</p>
-<h2 id="字符验证码识别"><a href="#字符验证码识别" class="headerlink" title="字符验证码识别"></a>字符验证码识别</h2><h3 id="简单字符"><a href="#简单字符" class="headerlink" title="简单字符"></a>简单字符</h3><p>此类验证码可以通过ocr识别</p>
-<pre><code>java可以接第三方ocr服务，python也有开源的库pytesseract，其核心都是OCR
+<h2 id="字符验证码识别"><a href="#字符验证码识别" class="headerlink" title="字符验证码识别"></a>字符验证码识别</h2><h3 id="简单字符"><a href="#简单字符" class="headerlink" title="简单字符"></a>简单字符</h3><p>此类验证码可以通过OCR识别</p>
+<pre><code>java可以接第三方OCR服务，python也有开源的库pytesseract，其核心都是OCR
 </code></pre><h3 id="复杂字符"><a href="#复杂字符" class="headerlink" title="复杂字符"></a>复杂字符</h3><img src="/爬虫验证码登录/captcha.png"> 
 <p>此类验证码干扰较多，ocr识别率较低，即便使用机器学习训练识别率也不会有太大提升，最好的方式是接第三方打码平台</p>
 <h2 id="打码平台接入"><a href="#打码平台接入" class="headerlink" title="打码平台接入"></a>打码平台接入</h2><p>我选择的是 “人工”智能打码（即平台另一方是真人识别） <a href="http://www.yundama.com/" target="_blank" rel="noopener">云打码</a></p>
