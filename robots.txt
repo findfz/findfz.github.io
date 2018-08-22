@@ -9,5 +9,5 @@ Disallow: /css/
 Disallow: /fonts/
 Disallow: /vendors/
 Disallow: /fancybox/
-Sitemap: http://limic.top/sitemap.xml
-Sitemap: http://limic.top/baidusitemap.xml
+Sitemap: http://www.limic.top/sitemap.xml
+Sitemap: http://www.limic.top/baidusitemap.xml
