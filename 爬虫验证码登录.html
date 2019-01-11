@@ -91,7 +91,7 @@
 <meta property="og:description" content="带验证码爬虫登录随着爬虫技术的广泛应用，很多的网站也作了应对，比如最常见的令人头疼的字符验证码 我的思路是：使用selenium+phantomjs(chrome亦可)模拟登录，验证码通过截图获取，再进行验证码识别，识别后填充输入框，从而达到模拟登录的效果 字符验证码识别简单字符此类验证码可以通过OCR识别 java可以接第三方OCR服务，python也有开源的库pytesseract，其核心都是">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://www.limic.top/爬虫验证码登录/captcha.png">
-<meta property="og:updated_time" content="2018-08-22T15:13:49.334Z">
+<meta property="og:updated_time" content="2019-01-11T06:16:50.205Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="爬虫验证码登录">
 <meta name="twitter:description" content="带验证码爬虫登录随着爬虫技术的广泛应用，很多的网站也作了应对，比如最常见的令人头疼的字符验证码 我的思路是：使用selenium+phantomjs(chrome亦可)模拟登录，验证码通过截图获取，再进行验证码识别，识别后填充输入框，从而达到模拟登录的效果 字符验证码识别简单字符此类验证码可以通过OCR识别 java可以接第三方OCR服务，python也有开源的库pytesseract，其核心都是">
@@ -374,83 +374,22 @@
 <pre><code>1.云打码平台用户调用接口上传待验证验证码
 2.调用获取验证码结果接口（时间不定，可能几秒也可能二十多秒，取决于验证码复杂度）
 </code></pre><p>验证代码</p>
-<pre><code>String url = &quot;http://api.yundama.com/api.php?method=result&quot;;
-StringBody name = new StringBody(username, ContentType.MULTIPART_FORM_DATA);
-StringBody pwd = new StringBody(password, ContentType.MULTIPART_FORM_DATA);
-StringBody id = new StringBody(String.valueOf(appid), ContentType.MULTIPART_FORM_DATA);
-StringBody key = new StringBody(appkey, ContentType.MULTIPART_FORM_DATA);
-StringBody cid1 = new StringBody(cid, ContentType.MULTIPART_FORM_DATA);
-HttpPost request = new HttpPost(url);
-HttpEntity httpEntity = MultipartEntityBuilder.create().setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
-        .addPart(&quot;username&quot;,name)
-        .addPart(&quot;password&quot;,pwd)
-        .addPart(&quot;appid&quot;,id)
-        .addPart(&quot;appkey&quot;,key)
-        .addPart(&quot;cid&quot;,cid1)
-        .build();
-request.setEntity(httpEntity);
-CookieStore cookieStore = (CookieStore) AuthUtil.getUsercookiemap().get(username);
-String content = &quot;&quot;;
-String text = &quot;&quot;;
-try {
-    //根据以往验证码识别时间来设置，在云打码平台用户和开发者用户均可看到
-    Thread.sleep(12000);
-    CloseableHttpResponse response = null;
-    response = getResponse(request, cookieStore);
-    content = EntityUtils.toString(response.getEntity(),&quot;utf-8&quot;);
-    JSON json = JSON.parseObject(content);
-    log.info(&quot;result: &quot;,((JSONObject) json).getString(&quot;text&quot;));
-    //{&quot;ret&quot;:-3002,&quot;cid&quot;:1776520707,&quot;text&quot;:&quot;&quot;} 此时验证码识别中，需重复调用
-    if (((JSONObject) json).get(&quot;ret&quot;).equals(Integer.parseInt(&quot;-3002&quot;))){
-        response = getResponse(request, cookieStore);
-        content = EntityUtils.toString(response.getEntity(),&quot;utf-8&quot;);
-        json = JSON.parseObject(content);
-        log.info(&quot;result: &quot;,((JSONObject) json).getString(&quot;text&quot;));
-        text = ((JSONObject) json).getString(&quot;text&quot;);
-    }else {
-        text = ((JSONObject) json).getString(&quot;text&quot;);
-    }
-    return text;
-} catch (IOException e) {
-    log.error(&quot;验证码识别&quot;,&quot;response error&quot;);
-}
-</code></pre><h2 id="获取验证码截图"><a href="#获取验证码截图" class="headerlink" title="获取验证码截图"></a>获取验证码截图</h2><h3 id="根据xpath进行元素截图代码"><a href="#根据xpath进行元素截图代码" class="headerlink" title="根据xpath进行元素截图代码"></a>根据xpath进行元素截图代码</h3><pre><code>/**
- * 根据坐标位置截取验证码区域（x,y,w,h需微调）
- * @param element
- * @return
- * @throws Exception
- */
-public static File captureElement(WebElement element) throws Exception {
-    // 截图整个页面
-    WrapsDriver wrapsDriver = (WrapsDriver)element;
-    File screen = ((TakesScreenshot)wrapsDriver.getWrappedDriver()).getScreenshotAs(OutputType.FILE);
-    BufferedImage img = ImageIO.read(screen);
-    // 获得元素的高度和宽度
-    int width = element.getSize().getWidth();
-    int height = element.getSize().getHeight();
-    // 创建一个矩形使用上面的高度，和宽度
-    Rectangle rect = new Rectangle(width, height);
-    // 得到元素的坐标
-    Point p = element.getLocation();
-    BufferedImage dest = img.getSubimage(p.getX()+25, p.getY(), rect.width, rect.height);
-    // 存为png格式
-    ImageIO.write(dest, &quot;png&quot;, screen);
-    return screen;
-}
-</code></pre><h3 id="截图调用部分"><a href="#截图调用部分" class="headerlink" title="截图调用部分"></a>截图调用部分</h3><pre><code>//验证码处理
-WebElement webElement = driver.findElement(By.xpath(&quot;//*[@id=\&quot;captcha\&quot;]&quot;));
-try {
-    FileUtils.copyFile(captureElement(webElement),new File(basePath+&quot;verify&quot;+time+&quot;.png&quot;));
-} catch (IOException e) {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">	String url = <span class="string">"http://api.yundama.com/api.php?method=result"</span>;</span><br><span class="line">    StringBody name = <span class="keyword">new</span> StringBody(username, ContentType.MULTIPART_FORM_DATA);</span><br><span class="line">    StringBody pwd = <span class="keyword">new</span> StringBody(password, ContentType.MULTIPART_FORM_DATA);</span><br><span class="line">    StringBody id = <span class="keyword">new</span> StringBody(String.valueOf(appid), ContentType.MULTIPART_FORM_DATA);</span><br><span class="line">    StringBody key = <span class="keyword">new</span> StringBody(appkey, ContentType.MULTIPART_FORM_DATA);</span><br><span class="line">    StringBody cid1 = <span class="keyword">new</span> StringBody(cid, ContentType.MULTIPART_FORM_DATA);</span><br><span class="line">    HttpPost request = <span class="keyword">new</span> HttpPost(url);</span><br><span class="line">    HttpEntity httpEntity = MultipartEntityBuilder.create().setMode(HttpMultipartMode.BROWSER_COMPATIBLE)</span><br><span class="line">            .addPart(<span class="string">"username"</span>,name)</span><br><span class="line">            .addPart(<span class="string">"password"</span>,pwd)</span><br><span class="line">            .addPart(<span class="string">"appid"</span>,id)</span><br><span class="line">            .addPart(<span class="string">"appkey"</span>,key)</span><br><span class="line">            .addPart(<span class="string">"cid"</span>,cid1)</span><br><span class="line">            .build();</span><br><span class="line">    request.setEntity(httpEntity);</span><br><span class="line">    CookieStore cookieStore = (CookieStore) AuthUtil.getUsercookiemap().get(username);</span><br><span class="line">    String content = <span class="string">""</span>;</span><br><span class="line">    String text = <span class="string">""</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">    	<span class="comment">//根据以往验证码识别时间来设置，在云打码平台用户和开发者用户均可看到</span></span><br><span class="line">        Thread.sleep(<span class="number">12000</span>);</span><br><span class="line">        CloseableHttpResponse response = <span class="keyword">null</span>;</span><br><span class="line">        response = getResponse(request, cookieStore);</span><br><span class="line">        content = EntityUtils.toString(response.getEntity(),<span class="string">"utf-8"</span>);</span><br><span class="line">        JSON json = JSON.parseObject(content);</span><br><span class="line">        log.info(<span class="string">"result: "</span>,((JSONObject) json).getString(<span class="string">"text"</span>));</span><br><span class="line">        <span class="comment">//&#123;"ret":-3002,"cid":1776520707,"text":""&#125; 此时验证码识别中，需重复调用</span></span><br><span class="line">        <span class="keyword">if</span> (((JSONObject) json).get(<span class="string">"ret"</span>).equals(Integer.parseInt(<span class="string">"-3002"</span>)))&#123;</span><br><span class="line">            response = getResponse(request, cookieStore);</span><br><span class="line">            content = EntityUtils.toString(response.getEntity(),<span class="string">"utf-8"</span>);</span><br><span class="line">            json = JSON.parseObject(content);</span><br><span class="line">            log.info(<span class="string">"result: "</span>,((JSONObject) json).getString(<span class="string">"text"</span>));</span><br><span class="line">            text = ((JSONObject) json).getString(<span class="string">"text"</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            text = ((JSONObject) json).getString(<span class="string">"text"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> text;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        log.error(<span class="string">"验证码识别"</span>,<span class="string">"response error"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">```    </span><br><span class="line">## 获取验证码截图</span><br><span class="line">		</span><br><span class="line">### 根据xpath进行元素截图代码</span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据坐标位置截取验证码区域（x,y,w,h需微调）</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> element</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> File <span class="title">captureElement</span><span class="params">(WebElement element)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">// 截图整个页面</span></span><br><span class="line">    WrapsDriver wrapsDriver = (WrapsDriver)element;</span><br><span class="line">    File screen = ((TakesScreenshot)wrapsDriver.getWrappedDriver()).getScreenshotAs(OutputType.FILE);</span><br><span class="line">    BufferedImage img = ImageIO.read(screen);</span><br><span class="line">    <span class="comment">// 获得元素的高度和宽度</span></span><br><span class="line">    <span class="keyword">int</span> width = element.getSize().getWidth();</span><br><span class="line">    <span class="keyword">int</span> height = element.getSize().getHeight();</span><br><span class="line">    <span class="comment">// 创建一个矩形使用上面的高度，和宽度</span></span><br><span class="line">    Rectangle rect = <span class="keyword">new</span> Rectangle(width, height);</span><br><span class="line">    <span class="comment">// 得到元素的坐标</span></span><br><span class="line">    Point p = element.getLocation();</span><br><span class="line">    BufferedImage dest = img.getSubimage(p.getX()+<span class="number">25</span>, p.getY(), rect.width, rect.height);</span><br><span class="line">    <span class="comment">// 存为png格式</span></span><br><span class="line">    ImageIO.write(dest, <span class="string">"png"</span>, screen);</span><br><span class="line">    <span class="keyword">return</span> screen;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="截图调用部分"><a href="#截图调用部分" class="headerlink" title="截图调用部分"></a>截图调用部分</h3><pre><code class="java"><span class="comment">//验证码处理</span>
+WebElement webElement = driver.findElement(By.xpath(<span class="string">"//*[@id=\"captcha\"]"</span>));
+<span class="keyword">try</span> {
+    FileUtils.copyFile(captureElement(webElement),<span class="keyword">new</span> File(basePath+<span class="string">"verify"</span>+time+<span class="string">".png"</span>));
+} <span class="keyword">catch</span> (IOException e) {
     e.printStackTrace();
 }
 
-YdmHttp ydmHttp = new YdmHttp();
-String captcha = ydmHttp.upload(basePath+&quot;verify&quot;+time+&quot;.png&quot;);
-driver.findElement(By.xpath(&quot;//*[@id=\&quot;qyyzm\&quot;]&quot;)).sendKeys(captcha);
-//参数填充完毕，点击登录
-driver.findElement(By.xpath(&quot;//*[@id=\&quot;tab\&quot;]/div/div[1]/p[2]/a&quot;)).click();
+YdmHttp ydmHttp = <span class="keyword">new</span> YdmHttp();
+String captcha = ydmHttp.upload(basePath+<span class="string">"verify"</span>+time+<span class="string">".png"</span>);
+driver.findElement(By.xpath(<span class="string">"//*[@id=\"qyyzm\"]"</span>)).sendKeys(captcha);
+<span class="comment">//参数填充完毕，点击登录</span>
+driver.findElement(By.xpath(<span class="string">"//*[@id=\"tab\"]/div/div[1]/p[2]/a"</span>)).click();
 </code></pre>
+
       
     </div>
     
@@ -628,7 +567,7 @@ driver.findElement(By.xpath(&quot;//*[@id=\&quot;tab\&quot;]/div/div[1]/p[2]/a&q
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#带验证码爬虫登录"><span class="nav-number">1.</span> <span class="nav-text">带验证码爬虫登录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符验证码识别"><span class="nav-number">2.</span> <span class="nav-text">字符验证码识别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单字符"><span class="nav-number">2.1.</span> <span class="nav-text">简单字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复杂字符"><span class="nav-number">2.2.</span> <span class="nav-text">复杂字符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打码平台接入"><span class="nav-number">3.</span> <span class="nav-text">打码平台接入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#接口选择"><span class="nav-number">3.1.</span> <span class="nav-text">接口选择</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取验证码截图"><span class="nav-number">4.</span> <span class="nav-text">获取验证码截图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#根据xpath进行元素截图代码"><span class="nav-number">4.1.</span> <span class="nav-text">根据xpath进行元素截图代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#截图调用部分"><span class="nav-number">4.2.</span> <span class="nav-text">截图调用部分</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#带验证码爬虫登录"><span class="nav-number">1.</span> <span class="nav-text">带验证码爬虫登录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符验证码识别"><span class="nav-number">2.</span> <span class="nav-text">字符验证码识别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单字符"><span class="nav-number">2.1.</span> <span class="nav-text">简单字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复杂字符"><span class="nav-number">2.2.</span> <span class="nav-text">复杂字符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打码平台接入"><span class="nav-number">3.</span> <span class="nav-text">打码平台接入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#接口选择"><span class="nav-number">3.1.</span> <span class="nav-text">接口选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#截图调用部分"><span class="nav-number">3.2.</span> <span class="nav-text">截图调用部分</span></a></li></ol></li></ol></div>
             
 
           </div>

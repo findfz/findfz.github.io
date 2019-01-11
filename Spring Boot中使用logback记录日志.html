@@ -93,7 +93,7 @@
 <meta property="og:image" content="https://i.imgur.com/V7riEWU.png">
 <meta property="og:image" content="https://i.imgur.com/TWQxUkW.png">
 <meta property="og:image" content="https://i.imgur.com/pbYrT0q.png">
-<meta property="og:updated_time" content="2018-08-05T03:43:01.713Z">
+<meta property="og:updated_time" content="2019-01-11T06:47:23.982Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Boot中使用logback记录日志">
 <meta name="twitter:description" content="简介Spring Boot在所有内部日志中使用Commons Logging，但是默认配置也提供了对常用日志的支持，如：Java Util Logging，Log4J, Log4J2和Logback。每种Logger都可以通过配置使用控制台或者文件输出日志内容。 默认日志LogbackSLF4J——Simple Logging Facade For Java，它是一个针对于各类Java日志框架的统">
@@ -417,49 +417,8 @@ JDK (Java Util Logging)：logging.properties
   config:
     classpath: logging-config.xml
 </code></pre><p>虽然一般并不需要改变配置文件的名字，但是如果你想针对不同运行时Profile使用不同的日<br>志配置，这个功能会派上用场。</p>
-<h3 id="logback-spring-xml示例"><a href="#logback-spring-xml示例" class="headerlink" title="logback-spring.xml示例"></a>logback-spring.xml示例</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;configuration  scan=&quot;true&quot; scanPeriod=&quot;60 seconds&quot; debug=&quot;false&quot;&gt;
-    &lt;contextName&gt;constance&lt;/contextName&gt;
-    &lt;property name=&quot;log.path&quot; value=&quot;D:\\logs\\logback.log&quot; /&gt;
-    &lt;!--输出到控制台--&gt;
-    &lt;appender name=&quot;console&quot; class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt;
-        &lt;encoder class=&quot;ch.qos.logback.classic.encoder.PatternLayoutEncoder&quot;&gt;
-            &lt;!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 --&gt;
-            &lt;pattern&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}:%line - %msg%n&lt;/pattern&gt;
-            &lt;charset&gt;UTF-8&lt;/charset&gt;
-        &lt;/encoder&gt;
-    &lt;/appender&gt;
-
-    &lt;!--输出到文件--&gt;
-    &lt;appender name=&quot;file&quot; class=&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;&gt;
-        &lt;file&gt;${log.path}&lt;/file&gt;
-        &lt;rollingPolicy class=&quot;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&quot;&gt;
-            &lt;!--日志文件输出的文件名--&gt;
-            &lt;FileNamePattern&gt;%d{yyyy-MM-dd}.instances.%i.log&lt;/FileNamePattern&gt;
-            &lt;!--日志文件保留10天--&gt;
-            &lt;MaxHistory&gt;10&lt;/MaxHistory&gt;
-            &lt;timeBasedFileNamingAndTriggeringPolicy
-                    class=&quot;ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP&quot;&gt;
-                &lt;!-- 最大64MB 超过最大值，会重新建一个文件--&gt;
-                &lt;maxFileSize&gt;64 MB&lt;/maxFileSize&gt;
-            &lt;/timeBasedFileNamingAndTriggeringPolicy&gt;
-        &lt;/rollingPolicy&gt;
-        &lt;encoder&gt;
-            &lt;pattern&gt;%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n&lt;/pattern&gt;
-        &lt;/encoder&gt;
-    &lt;/appender&gt;
-
-    &lt;!-- 日志输出级别 --&gt;
-    &lt;root level=&quot;INFO&quot;&gt;
-        &lt;appender-ref ref=&quot;console&quot; /&gt;
-    &lt;/root&gt;
-
-    &lt;logger name=&quot;com&quot; level=&quot;DEBUG&quot; additivity=&quot;false&quot;&gt;
-        &lt;appender-ref ref=&quot;file&quot; /&gt;
-    &lt;/logger&gt;
-
-&lt;/configuration&gt;
-</code></pre><h3 id="根节点-configuration-包含的属性"><a href="#根节点-configuration-包含的属性" class="headerlink" title="根节点 configuration 包含的属性"></a>根节点 configuration 包含的属性</h3><pre><code>scan:当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
+<h3 id="logback-spring-xml示例"><a href="#logback-spring-xml示例" class="headerlink" title="logback-spring.xml示例"></a>logback-spring.xml示例</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>  <span class="attr">scan</span>=<span class="string">"true"</span> <span class="attr">scanPeriod</span>=<span class="string">"60 seconds"</span> <span class="attr">debug</span>=<span class="string">"false"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">contextName</span>&gt;</span>constance<span class="tag">&lt;/<span class="name">contextName</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"log.path"</span> <span class="attr">value</span>=<span class="string">"D:\\logs\\logback.log"</span> /&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--输出到控制台--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">"console"</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.ConsoleAppender"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">encoder</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.classic.encoder.PatternLayoutEncoder"</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">pattern</span>&gt;</span>%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%thread] %-5level %logger&#123;50&#125;:%line - %msg%n<span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">charset</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">charset</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">encoder</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">    <span class="comment">&lt;!--输出到文件--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">"file"</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.rolling.RollingFileAppender"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">file</span>&gt;</span>$&#123;log.path&#125;<span class="tag">&lt;/<span class="name">file</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">rollingPolicy</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.rolling.TimeBasedRollingPolicy"</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--日志文件输出的文件名--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">FileNamePattern</span>&gt;</span>%d&#123;yyyy-MM-dd&#125;.instances.%i.log<span class="tag">&lt;/<span class="name">FileNamePattern</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--日志文件保留10天--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">MaxHistory</span>&gt;</span>10<span class="tag">&lt;/<span class="name">MaxHistory</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">timeBasedFileNamingAndTriggeringPolicy</span></span></span><br><span class="line"><span class="tag">                    <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP"</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!-- 最大64MB 超过最大值，会重新建一个文件--&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">maxFileSize</span>&gt;</span>64 MB<span class="tag">&lt;/<span class="name">maxFileSize</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">timeBasedFileNamingAndTriggeringPolicy</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">rollingPolicy</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">encoder</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">pattern</span>&gt;</span>%d&#123;HH:mm:ss.SSS&#125; %contextName [%thread] %-5level %logger&#123;36&#125; - %msg%n<span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">encoder</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">    <span class="comment">&lt;!-- 日志输出级别 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">root</span> <span class="attr">level</span>=<span class="string">"INFO"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">"console"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">    <span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"com"</span> <span class="attr">level</span>=<span class="string">"DEBUG"</span> <span class="attr">additivity</span>=<span class="string">"false"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">"file"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">logger</span>&gt;</span></span><br><span class="line">	</span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="根节点-configuration-包含的属性"><a href="#根节点-configuration-包含的属性" class="headerlink" title="根节点 configuration 包含的属性"></a>根节点 configuration 包含的属性</h3><pre><code>scan:当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
 scanPeriod:设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。
 debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。
 </code></pre><p>**根节点<configuration>的子节点： </configuration></p>
@@ -525,59 +484,13 @@ addtivity:是否向上级loger传递打印信息。默认是true。
 &lt;/springProfile&gt;
 </code></pre><p>可以启动服务的时候指定 profile （如不指定使用默认），如指定 prod 的方式为：<br>java -jar xxx.jar –spring.profiles.active=prod </p>
 <h3 id="AOP全局日志切面"><a href="#AOP全局日志切面" class="headerlink" title="AOP全局日志切面"></a>AOP全局日志切面</h3><p>为了方便线上问题定位及跟踪，每次请求接口，都要记录请求及返回信息，不可能人工去每个controller类加log吧，这时我们可以利用spring的aop特性，实现自定义的日志切面</p>
-<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><pre><code>/**
- * Author：xiongzhan
- * Description：日志切面
- * Date：2018-04-17 15:40
- **/
-@Aspect
-@Component
-@Slf4j
-public class WebLogAspect {
-
-    ThreadLocal&lt;Long&gt; startTime = new ThreadLocal&lt;&gt;();
-
-    //当请求日志过多，交错打印时，难以区分请求对应的返回，故加上一个reqId便于对应
-    ThreadLocal&lt;String&gt; reqId = new ThreadLocal&lt;&gt;();
-
-    //如果你需要拦截指定package指定规则名称的方法，可以使用表达式execution(...)
-    @Pointcut(&quot;execution(public * com.blog.*.controller.*Controller.*(..))&quot;)
-    public void webLog(){}
-
-    @Before(&quot;webLog()&quot;)
-    public void doBefore(JoinPoint joinPoint) throws Throwable {
-        reqId.set(UidUtil.uuid());
-        startTime.set(System.currentTimeMillis());
-
-        // 接收到请求，记录请求内容
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-
-        //MDC配合logback配置使用
-        MDC.put(&quot;userId&quot;,123456);
-
-        // 记录下请求内容,使用{}占位符。避免字符串连接操作，减少String对象（不可变）带来的内存开销
-        log.info(&quot;reqId : {}, URL : {}&quot;, reqId.get().substring(0,6), request.getRequestURL().toString());
-        log.info(&quot;reqId : {}, HTTP_METHOD : {}&quot;, reqId.get().substring(0,6), request.getMethod());
-        log.info(&quot;reqId : {}, IP : {}&quot;, reqId.get().substring(0,6), request.getRemoteAddr());
-        log.info(&quot;reqId : {}, CLASS_METHOD : {}&quot;, reqId.get().substring(0,6), joinPoint.getSignature().getDeclaringTypeName() + &quot;.&quot; + joinPoint.getSignature().getName());
-        log.info(&quot;reqId : {}, ARGS : {}&quot;, reqId.get().substring(0,6), Arrays.toString(joinPoint.getArgs()));
-
-    }
-
-    @AfterReturning(returning = &quot;ret&quot;, pointcut = &quot;webLog()&quot;)
-    public void doAfterReturning(Object ret) throws Throwable {
-        // 处理完请求，返回内容  
-        log.info(&quot;reqId : {}, RESPONSE : {}&quot;, reqId.get().substring(0,6), JSON.toJSONString(ret));
-        log.info(&quot;reqId : {}, SPEND TIME : {}&quot;, reqId.get().substring(0,6),(System.currentTimeMillis() - startTime.get()));
-    }
-
-}
-</code></pre><h4 id="MDC使用"><a href="#MDC使用" class="headerlink" title="MDC使用"></a>MDC使用</h4><p>logback内置的日志字段还是比较少，如果我们需要打印有关业务的更多的内容，包括自定义的一些数据，需要借助logback MDC机制，MDC为“Mapped Diagnostic Context”（映射诊断上下文），即将一些运行时的上下文数据通过logback打印出来；此时我们需要借助org.sl4j.MDC类。</p>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Author：xiongzhan</span></span><br><span class="line"><span class="comment"> * Description：日志切面</span></span><br><span class="line"><span class="comment"> * Date：2018-04-17 15:40</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebLogAspect</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">    ThreadLocal&lt;Long&gt; startTime = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//当请求日志过多，交错打印时，难以区分请求对应的返回，故加上一个reqId便于对应</span></span><br><span class="line">    ThreadLocal&lt;String&gt; reqId = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//如果你需要拦截指定package指定规则名称的方法，可以使用表达式execution(...)</span></span><br><span class="line">    <span class="meta">@Pointcut</span>(<span class="string">"execution(public * com.blog.*.controller.*Controller.*(..))"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">webLog</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">    <span class="meta">@Before</span>(<span class="string">"webLog()"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doBefore</span><span class="params">(JoinPoint joinPoint)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        reqId.set(UidUtil.uuid());</span><br><span class="line">        startTime.set(System.currentTimeMillis());</span><br><span class="line">	</span><br><span class="line">        <span class="comment">// 接收到请求，记录请求内容</span></span><br><span class="line">        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();</span><br><span class="line">        HttpServletRequest request = attributes.getRequest();</span><br><span class="line">	</span><br><span class="line">        <span class="comment">//MDC配合logback配置使用</span></span><br><span class="line">        MDC.put(<span class="string">"userId"</span>,<span class="number">123456</span>);</span><br><span class="line">	</span><br><span class="line">        <span class="comment">// 记录下请求内容,使用&#123;&#125;占位符。避免字符串连接操作，减少String对象（不可变）带来的内存开销</span></span><br><span class="line">        log.info(<span class="string">"reqId : &#123;&#125;, URL : &#123;&#125;"</span>, reqId.get().substring(<span class="number">0</span>,<span class="number">6</span>), request.getRequestURL().toString());</span><br><span class="line">        log.info(<span class="string">"reqId : &#123;&#125;, HTTP_METHOD : &#123;&#125;"</span>, reqId.get().substring(<span class="number">0</span>,<span class="number">6</span>), request.getMethod());</span><br><span class="line">        log.info(<span class="string">"reqId : &#123;&#125;, IP : &#123;&#125;"</span>, reqId.get().substring(<span class="number">0</span>,<span class="number">6</span>), request.getRemoteAddr());</span><br><span class="line">        log.info(<span class="string">"reqId : &#123;&#125;, CLASS_METHOD : &#123;&#125;"</span>, reqId.get().substring(<span class="number">0</span>,<span class="number">6</span>), joinPoint.getSignature().getDeclaringTypeName() + <span class="string">"."</span> + joinPoint.getSignature().getName());</span><br><span class="line">        log.info(<span class="string">"reqId : &#123;&#125;, ARGS : &#123;&#125;"</span>, reqId.get().substring(<span class="number">0</span>,<span class="number">6</span>), Arrays.toString(joinPoint.getArgs()));</span><br><span class="line">	</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    <span class="meta">@AfterReturning</span>(returning = <span class="string">"ret"</span>, pointcut = <span class="string">"webLog()"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doAfterReturning</span><span class="params">(Object ret)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="comment">// 处理完请求，返回内容  </span></span><br><span class="line">        log.info(<span class="string">"reqId : &#123;&#125;, RESPONSE : &#123;&#125;"</span>, reqId.get().substring(<span class="number">0</span>,<span class="number">6</span>), JSON.toJSONString(ret));</span><br><span class="line">        log.info(<span class="string">"reqId : &#123;&#125;, SPEND TIME : &#123;&#125;"</span>, reqId.get().substring(<span class="number">0</span>,<span class="number">6</span>),(System.currentTimeMillis() - startTime.get()));</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="MDC使用"><a href="#MDC使用" class="headerlink" title="MDC使用"></a>MDC使用</h4><p>logback内置的日志字段还是比较少，如果我们需要打印有关业务的更多的内容，包括自定义的一些数据，需要借助logback MDC机制，MDC为“Mapped Diagnostic Context”（映射诊断上下文），即将一些运行时的上下文数据通过logback打印出来；此时我们需要借助org.sl4j.MDC类。</p>
 <p>MDC类基本原理其实非常简单，其内部持有一个InheritableThreadLocal实例，用于保存context数据，MDC提供了put/get/clear等几个核心接口，用于操作ThreadLocal中的数据；ThreadLocal中的K-V，可以在logback.xml中声明，最终将会打印在日志中。</p>
 <p>如上面代码中我们自定义了一个userId</p>
-<pre><code>MDC.put(&quot;userId&quot;,123456);
-</code></pre><p>那么在logback-spring.xml中，即可在layout中通过声明“%X{userId}”来打印此信息。</p>
+<pre><code class="java">MDC.put(<span class="string">"userId"</span>,<span class="number">123456</span>);
+</code></pre>
+<p>那么在logback-spring.xml中，即可在layout中通过声明“%X{userId}”来打印此信息。</p>
 <pre><code>&lt;!--输出到控制台--&gt;
 &lt;appender name=&quot;console&quot; class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt;
     &lt;encoder class=&quot;ch.qos.logback.classic.encoder.PatternLayoutEncoder&quot;&gt;

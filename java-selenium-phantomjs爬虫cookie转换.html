@@ -94,7 +94,7 @@
 <meta property="og:image" content="https://i.imgur.com/Fb9z4LN.png">
 <meta property="og:image" content="https://i.imgur.com/tKGRyEo.png">
 <meta property="og:image" content="https://i.imgur.com/uX7hzMM.png">
-<meta property="og:updated_time" content="2018-08-05T03:43:01.711Z">
+<meta property="og:updated_time" content="2019-01-11T06:18:29.038Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java+selenium+phantomjs爬虫cookie转换">
 <meta name="twitter:description" content="场景面临的问题1.通过selenium+phantomjs模拟登录爬取效率较低，耗时长 2.通过接口登录成功后进行部分接口请求时会返回该网站服务器错误，所以此处否掉了接口实现的方式 爬虫实现网站登录的方式无非两种1.分析请求调用登录接口登录 2.通过selenium模拟浏览器登录 拟实现方案1.用接口登录，优化登录部分时间 2.登录成功后将cookie存入phantomjs无头浏览器，然后通过ph">
@@ -392,16 +392,8 @@
 <p><strong>org.openqa.selenium.Cookie</strong></p>
 <p><img src="https://i.imgur.com/uX7hzMM.png" alt=""></p>
 <p><strong>对比可以发现，两个Cookie类字段大同小异，则可以通过selenium包下Cookie的构造方法完成cookie的设置</strong></p>
-<h3 id="核心代码实现"><a href="#核心代码实现" class="headerlink" title="核心代码实现"></a>核心代码实现</h3><pre><code>driver.get(url);        
-driver.manage().deleteAllCookies();
-List&lt;org.apache.http.cookie.Cookie&gt; cookies = cookieStore.getCookies();
-for (Cookie cookie : cookies) {
-    org.openqa.selenium.Cookie cookie1 =
-            new org.openqa.selenium.Cookie(cookie.getName(), cookie.getValue(), cookie.getDomain(), cookie.getPath(), cookie.getExpiryDate());
-    driver.manage().addCookie(cookie1);
-}
-driver.get(url);
-</code></pre><h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p><strong>Can only set Cookies for the current domain</strong></p>
+<h3 id="核心代码实现"><a href="#核心代码实现" class="headerlink" title="核心代码实现"></a>核心代码实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">driver.get(url);		</span><br><span class="line">driver.manage().deleteAllCookies();</span><br><span class="line">List&lt;org.apache.http.cookie.Cookie&gt; cookies = cookieStore.getCookies();</span><br><span class="line"><span class="keyword">for</span> (Cookie cookie : cookies) &#123;</span><br><span class="line">    org.openqa.selenium.Cookie cookie1 =</span><br><span class="line">            <span class="keyword">new</span> org.openqa.selenium.Cookie(cookie.getName(), cookie.getValue(), cookie.getDomain(), cookie.getPath(), cookie.getExpiryDate());</span><br><span class="line">    driver.manage().addCookie(cookie1);</span><br><span class="line">&#125;</span><br><span class="line">driver.get(url);</span><br></pre></td></tr></table></figure>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p><strong>Can only set Cookies for the current domain</strong></p>
 <p><strong>即：只能为当前域设置Cookies</strong></p>
 <p><strong>2种解决方案</strong></p>
 <pre><code>1.设置cookie之前先请求一次（driver.get(url)）

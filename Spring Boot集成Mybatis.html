@@ -99,7 +99,7 @@
 <meta property="og:image" content="https://i.imgur.com/S6W2cQC.png">
 <meta property="og:image" content="https://i.imgur.com/m6MU6eu.png">
 <meta property="og:image" content="https://i.imgur.com/GGvFET5.png">
-<meta property="og:updated_time" content="2018-08-05T03:43:01.712Z">
+<meta property="og:updated_time" content="2019-01-11T06:40:19.666Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Boot集成Mybatis">
 <meta name="twitter:description" content="选择Spring Boot自15年项目中应用Spring Boot之后便对其爱不释手项目的快速搭建（提供starter简化Maven配置）  摆脱了spring繁琐的xml配置（约定优于配置）  项目的快速部署（内置servlet容器）  Idea创建Spring boot项目通过Spring initializr来创建一个项目 设置好artifactId和GroupId 根据需要引入依赖(Lom">
@@ -446,89 +446,11 @@
         &lt;/dependency&gt;
     &lt;/dependencies&gt;
 &lt;/plugin&gt;
-</code></pre><h3 id="配置application-properties-application-yml"><a href="#配置application-properties-application-yml" class="headerlink" title="配置application.properties(application.yml)"></a>配置application.properties(application.yml)</h3><pre><code>server:
-  port: 8080
-
-mybatis:
-  #mapper.xml路径
-  mapper-locations: classpath*:mapper/**/*.xml
-  configuration:
-    map-underscore-to-camel-case: true
-    default-fetch-size: 100
-    default-statement-timeout: 30
-
-mapper:
-    mappers:
-        - com.blog.util.BaseMapper
-    not-empty: false
-    identity: mysql
-
-pagehelper:
-    helperDialect: mysql
-    reasonable: true
-    supportMethodsArguments: false
-    params: count=countSql
-
-spring:
-  datasource:
-    # druid
-    type: com.alibaba.druid.pool.DruidDataSource
-    # connection
-    url: jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true&amp;allowMultiQueries=true
-    username: root
-    password: 199272xz
-</code></pre><p>上面配置的BaseMapper如下：</p>
-<pre><code>package com.blog.util;
-
-import tk.mybatis.mapper.common.Mapper;
-import tk.mybatis.mapper.common.MySqlMapper;
-
-/**
- * Author：xiongzhan
- * Description：BaseMapper
- * Date: 2018-07-22 15:02
- */
-public interface BaseMapper&lt;T&gt; extends Mapper&lt;T&gt;, MySqlMapper&lt;T&gt; {
-
-}
-</code></pre><h3 id="配置mybatis-generator-xml"><a href="#配置mybatis-generator-xml" class="headerlink" title="配置mybatis generator xml"></a>配置mybatis generator xml</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!DOCTYPE generatorConfiguration
-    PUBLIC &quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot;
-    &quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;&gt;
-
-&lt;generatorConfiguration&gt;
-
-    &lt;context id=&quot;Mysql&quot; targetRuntime=&quot;MyBatis3Simple&quot; defaultModelType=&quot;flat&quot;&gt;
-        &lt;property name=&quot;javaFileEncoding&quot; value=&quot;UTF-8&quot;/&gt;
-        &lt;property name=&quot;beginningDelimiter&quot; value=&quot;`&quot;/&gt;
-        &lt;property name=&quot;endingDelimiter&quot; value=&quot;`&quot;/&gt;
-
-        &lt;plugin type=&quot;tk.mybatis.mapper.generator.MapperPlugin&quot;&gt;
-            &lt;property name=&quot;mappers&quot; value=&quot;com.blog.util.BaseMapper&quot;/&gt;
-        &lt;/plugin&gt;
-
-        &lt;!--根据具体情况修改数据库配置 --&gt;
-        &lt;jdbcConnection driverClass=&quot;com.mysql.jdbc.Driver&quot;
-                        connectionURL=&quot;jdbc:mysql://localhost:3306/test&quot;
-                        userId=&quot;root&quot;
-                        password=&quot;199272xz&quot;/&gt;
-
-        &lt;!--根据具体情况修改子模块java实体文件包名，com.blog.xxx.model --&gt;
-        &lt;javaModelGenerator targetPackage=&quot;com.blog.user.entity&quot; targetProject=&quot;${targetJavaProject}&quot;/&gt;
-        &lt;!--根据具体情况修改子模块java文件包名，mapper/xxx --&gt;
-        &lt;sqlMapGenerator targetPackage=&quot;mapper/user&quot; targetProject=&quot;${targetResourcesProject}&quot;/&gt;
-        &lt;!--根据具体情况修改子模块java mapper文件包名，com.blog.**.mapper --&gt;
-        &lt;javaClientGenerator targetPackage=&quot;com.blog.user.mapper&quot; targetProject=&quot;${targetJavaProject}&quot;
-                             type=&quot;XMLMAPPER&quot;/&gt;
-
-        &lt;!--根据具体情况修改表名和实体名称，t_xxx_yyy --&gt;
-        &lt;table tableName=&quot;tbl_user&quot; domainObjectName=&quot;User&quot;&gt;
-
-        &lt;/table&gt;
-
-    &lt;/context&gt;
-&lt;/generatorConfiguration&gt;
-</code></pre><h3 id="运行idea中mybatis-generator插件"><a href="#运行idea中mybatis-generator插件" class="headerlink" title="运行idea中mybatis-generator插件"></a>运行idea中mybatis-generator插件</h3><p><img src="https://i.imgur.com/wSVfGZg.png" alt=""></p>
+</code></pre><h3 id="配置application-properties-application-yml"><a href="#配置application-properties-application-yml" class="headerlink" title="配置application.properties(application.yml)"></a>配置application.properties(application.yml)</h3><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8080</span></span><br><span class="line">	</span><br><span class="line"><span class="attr">mybatis:</span></span><br><span class="line">  <span class="comment">#mapper.xml路径</span></span><br><span class="line"><span class="attr">  mapper-locations:</span> <span class="string">classpath*:mapper/**/*.xml</span></span><br><span class="line"><span class="attr">  configuration:</span></span><br><span class="line"><span class="attr">    map-underscore-to-camel-case:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    default-fetch-size:</span> <span class="number">100</span></span><br><span class="line"><span class="attr">    default-statement-timeout:</span> <span class="number">30</span></span><br><span class="line">	</span><br><span class="line"><span class="attr">mapper:</span></span><br><span class="line"><span class="attr">    mappers:</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">com.blog.util.BaseMapper</span></span><br><span class="line"><span class="attr">    not-empty:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    identity:</span> <span class="string">mysql</span></span><br><span class="line">	</span><br><span class="line"><span class="attr">pagehelper:</span></span><br><span class="line"><span class="attr">    helperDialect:</span> <span class="string">mysql</span></span><br><span class="line"><span class="attr">    reasonable:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    supportMethodsArguments:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    params:</span> <span class="string">count=countSql</span></span><br><span class="line">	</span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  datasource:</span></span><br><span class="line">    <span class="comment"># druid</span></span><br><span class="line"><span class="attr">    type:</span> <span class="string">com.alibaba.druid.pool.DruidDataSource</span></span><br><span class="line">    <span class="comment"># connection</span></span><br><span class="line"><span class="attr">    url:</span> <span class="attr">jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true&amp;allowMultiQueries=true</span></span><br><span class="line"><span class="attr">    username:</span> <span class="string">root</span></span><br><span class="line"><span class="attr">    password:</span> <span class="number">199272</span><span class="string">xz</span></span><br></pre></td></tr></table></figure>
+<p>上面配置的BaseMapper如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.blog.util;</span><br><span class="line">	</span><br><span class="line"><span class="keyword">import</span> tk.mybatis.mapper.common.Mapper;</span><br><span class="line"><span class="keyword">import</span> tk.mybatis.mapper.common.MySqlMapper;</span><br><span class="line">	</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Author：xiongzhan</span></span><br><span class="line"><span class="comment"> * Description：BaseMapper</span></span><br><span class="line"><span class="comment"> * Date: 2018-07-22 15:02</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BaseMapper</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">Mapper</span>&lt;<span class="title">T</span>&gt;, <span class="title">MySqlMapper</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="配置mybatis-generator-xml"><a href="#配置mybatis-generator-xml" class="headerlink" title="配置mybatis generator xml"></a>配置mybatis generator xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="meta">&lt;!DOCTYPE generatorConfiguration</span></span><br><span class="line"><span class="meta">    PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"</span></span><br><span class="line"><span class="meta">    "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd"&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">generatorConfiguration</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">    <span class="tag">&lt;<span class="name">context</span> <span class="attr">id</span>=<span class="string">"Mysql"</span> <span class="attr">targetRuntime</span>=<span class="string">"MyBatis3Simple"</span> <span class="attr">defaultModelType</span>=<span class="string">"flat"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"javaFileEncoding"</span> <span class="attr">value</span>=<span class="string">"UTF-8"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"beginningDelimiter"</span> <span class="attr">value</span>=<span class="string">"`"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"endingDelimiter"</span> <span class="attr">value</span>=<span class="string">"`"</span>/&gt;</span></span><br><span class="line">	</span><br><span class="line">        <span class="tag">&lt;<span class="name">plugin</span> <span class="attr">type</span>=<span class="string">"tk.mybatis.mapper.generator.MapperPlugin"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"mappers"</span> <span class="attr">value</span>=<span class="string">"com.blog.util.BaseMapper"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">        <span class="comment">&lt;!--根据具体情况修改数据库配置 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">jdbcConnection</span> <span class="attr">driverClass</span>=<span class="string">"com.mysql.jdbc.Driver"</span></span></span><br><span class="line"><span class="tag">                        <span class="attr">connectionURL</span>=<span class="string">"jdbc:mysql://localhost:3306/test"</span></span></span><br><span class="line"><span class="tag">                        <span class="attr">userId</span>=<span class="string">"root"</span></span></span><br><span class="line"><span class="tag">                        <span class="attr">password</span>=<span class="string">"199272xz"</span>/&gt;</span></span><br><span class="line">	</span><br><span class="line">        <span class="comment">&lt;!--根据具体情况修改子模块java实体文件包名，com.blog.xxx.model --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">javaModelGenerator</span> <span class="attr">targetPackage</span>=<span class="string">"com.blog.user.entity"</span> <span class="attr">targetProject</span>=<span class="string">"$&#123;targetJavaProject&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--根据具体情况修改子模块java文件包名，mapper/xxx --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">sqlMapGenerator</span> <span class="attr">targetPackage</span>=<span class="string">"mapper/user"</span> <span class="attr">targetProject</span>=<span class="string">"$&#123;targetResourcesProject&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--根据具体情况修改子模块java mapper文件包名，com.blog.**.mapper --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">javaClientGenerator</span> <span class="attr">targetPackage</span>=<span class="string">"com.blog.user.mapper"</span> <span class="attr">targetProject</span>=<span class="string">"$&#123;targetJavaProject&#125;"</span></span></span><br><span class="line"><span class="tag">                             <span class="attr">type</span>=<span class="string">"XMLMAPPER"</span>/&gt;</span></span><br><span class="line">	</span><br><span class="line">        <span class="comment">&lt;!--根据具体情况修改表名和实体名称，t_xxx_yyy --&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">table</span> <span class="attr">tableName</span>=<span class="string">"tbl_user"</span> <span class="attr">domainObjectName</span>=<span class="string">"User"</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">        <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">    <span class="tag">&lt;/<span class="name">context</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">generatorConfiguration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="运行idea中mybatis-generator插件"><a href="#运行idea中mybatis-generator插件" class="headerlink" title="运行idea中mybatis-generator插件"></a>运行idea中mybatis-generator插件</h3><p><img src="https://i.imgur.com/wSVfGZg.png" alt=""></p>
 <h3 id="代码生成截图"><a href="#代码生成截图" class="headerlink" title="代码生成截图"></a>代码生成截图</h3><p><img src="https://i.imgur.com/NYudCNB.png" alt=""></p>
 <h3 id="至此，Mybatis已经成功引入"><a href="#至此，Mybatis已经成功引入" class="headerlink" title="至此，Mybatis已经成功引入"></a>至此，Mybatis已经成功引入</h3><h2 id="PageHelper分页实现"><a href="#PageHelper分页实现" class="headerlink" title="PageHelper分页实现"></a>PageHelper分页实现</h2><h3 id="xml文件加入一条查询所有数据的sql"><a href="#xml文件加入一条查询所有数据的sql" class="headerlink" title="xml文件加入一条查询所有数据的sql"></a>xml文件加入一条查询所有数据的sql</h3><pre><code>&lt;sql id=&quot;Base_Column_List&quot; &gt;
   id, name, age, hobby
@@ -539,118 +461,14 @@ public interface BaseMapper&lt;T&gt; extends Mapper&lt;T&gt;, MySqlMapper&lt;T&g
   &lt;include refid=&quot;Base_Column_List&quot; /&gt;
   from tbl_user
 &lt;/select&gt;
-</code></pre><h3 id="mapper文件中定义接口"><a href="#mapper文件中定义接口" class="headerlink" title="mapper文件中定义接口"></a>mapper文件中定义接口</h3><pre><code>@Mapper
-public interface UserMapper extends BaseMapper&lt;User&gt; {
-
-    Page&lt;User&gt; findByPage();
-
-}
-</code></pre><h3 id="service实现层添加分页操作"><a href="#service实现层添加分页操作" class="headerlink" title="service实现层添加分页操作"></a>service实现层添加分页操作</h3><pre><code>@Service
-public class UserServiceImpl implements UserService{
-
-    @Autowired
-    private UserMapper userMapper;
-
-    /**
-     * 分页查询
-     * @param pageNo 当前页数
-     * @param pageSize 分页条数
-     * @return
-     */
-    @Override
-    public Page&lt;User&gt; findByPage(int pageNo, int pageSize) {
-        PageHelper.startPage(pageNo, pageSize);
-        return userMapper.findByPage();
-    }
-
-}
-</code></pre><h3 id="controller层封装返回对象"><a href="#controller层封装返回对象" class="headerlink" title="controller层封装返回对象"></a>controller层封装返回对象</h3><pre><code>/**
- * Author：xiongzhan
- * Description：用户操作
- * Date: 2018-07-22 15:02
- */
-@RestController
-@RequestMapping(&quot;/user&quot;)
-public class UserController {
-
-    @Autowired
-    private UserService userService;
-
-    /**
-     * 分页查询
-     * @param pageNo 当前页数
-     * @param pageSize 分页条数
-     * @return
-     */
-    @GetMapping(&quot;/findByPage&quot;)
-    public PageInfo&lt;User&gt; findByPage(int pageNo,int pageSize){
-        Page&lt;User&gt; userPage = userService.findByPage(pageNo,pageSize);
-        PageInfo&lt;User&gt; pageInfo = new PageInfo&lt;&gt;(userPage);
-        return pageInfo;
-    }
-
-}
-</code></pre><h3 id="运行项目，通过Postman调用查看结果"><a href="#运行项目，通过Postman调用查看结果" class="headerlink" title="运行项目，通过Postman调用查看结果"></a>运行项目，通过Postman调用查看结果</h3><p>访问：<a href="http://localhost:8080/user/findByPage?pageNo=1&amp;pageSize=5" target="_blank" rel="noopener">http://localhost:8080/user/findByPage?pageNo=1&amp;pageSize=5</a></p>
+</code></pre><h3 id="mapper文件中定义接口"><a href="#mapper文件中定义接口" class="headerlink" title="mapper文件中定义接口"></a>mapper文件中定义接口</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserMapper</span> <span class="keyword">extends</span> <span class="title">BaseMapper</span>&lt;<span class="title">User</span>&gt; </span>&#123;</span><br><span class="line">	</span><br><span class="line">    <span class="function">Page&lt;User&gt; <span class="title">findByPage</span><span class="params">()</span></span>;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="service实现层添加分页操作"><a href="#service实现层添加分页操作" class="headerlink" title="service实现层添加分页操作"></a>service实现层添加分页操作</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserServiceImpl</span> <span class="keyword">implements</span> <span class="title">UserService</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserMapper userMapper;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 分页查询</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> pageNo 当前页数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> pageSize 分页条数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Page&lt;User&gt; <span class="title">findByPage</span><span class="params">(<span class="keyword">int</span> pageNo, <span class="keyword">int</span> pageSize)</span> </span>&#123;</span><br><span class="line">        PageHelper.startPage(pageNo, pageSize);</span><br><span class="line">        <span class="keyword">return</span> userMapper.findByPage();</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="controller层封装返回对象"><a href="#controller层封装返回对象" class="headerlink" title="controller层封装返回对象"></a>controller层封装返回对象</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Author：xiongzhan</span></span><br><span class="line"><span class="comment"> * Description：用户操作</span></span><br><span class="line"><span class="comment"> * Date: 2018-07-22 15:02</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserService userService;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 分页查询</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> pageNo 当前页数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> pageSize 分页条数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/findByPage"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> PageInfo&lt;User&gt; <span class="title">findByPage</span><span class="params">(<span class="keyword">int</span> pageNo,<span class="keyword">int</span> pageSize)</span></span>&#123;</span><br><span class="line">        Page&lt;User&gt; userPage = userService.findByPage(pageNo,pageSize);</span><br><span class="line">        PageInfo&lt;User&gt; pageInfo = <span class="keyword">new</span> PageInfo&lt;&gt;(userPage);</span><br><span class="line">        <span class="keyword">return</span> pageInfo;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="运行项目，通过Postman调用查看结果"><a href="#运行项目，通过Postman调用查看结果" class="headerlink" title="运行项目，通过Postman调用查看结果"></a>运行项目，通过Postman调用查看结果</h3><p>访问：<a href="http://localhost:8080/user/findByPage?pageNo=1&amp;pageSize=5" target="_blank" rel="noopener">http://localhost:8080/user/findByPage?pageNo=1&amp;pageSize=5</a></p>
 <p><img src="https://i.imgur.com/S6W2cQC.png" alt=""></p>
 <p>截不了完整的json，复制如下</p>
-<pre><code>{
-    &quot;pageNum&quot;: 1,
-    &quot;pageSize&quot;: 5,
-    &quot;size&quot;: 5,
-    &quot;startRow&quot;: 1,
-    &quot;endRow&quot;: 5,
-    &quot;total&quot;: 12,
-    &quot;pages&quot;: 3,
-    &quot;list&quot;: [
-        {
-            &quot;id&quot;: 1,
-            &quot;name&quot;: &quot;子&quot;,
-            &quot;age&quot;: 10,
-            &quot;hobby&quot;: &quot;甲&quot;
-        },
-        {
-            &quot;id&quot;: 2,
-            &quot;name&quot;: &quot;丑&quot;,
-            &quot;age&quot;: 11,
-            &quot;hobby&quot;: &quot;乙&quot;
-        },
-        {
-            &quot;id&quot;: 3,
-            &quot;name&quot;: &quot;寅&quot;,
-            &quot;age&quot;: 12,
-            &quot;hobby&quot;: &quot;丙&quot;
-        },
-        {
-            &quot;id&quot;: 4,
-            &quot;name&quot;: &quot;卯&quot;,
-            &quot;age&quot;: 13,
-            &quot;hobby&quot;: &quot;丁&quot;
-        },
-        {
-            &quot;id&quot;: 5,
-            &quot;name&quot;: &quot;辰&quot;,
-            &quot;age&quot;: 14,
-            &quot;hobby&quot;: &quot;戊&quot;
-        }
-    ],
-    &quot;prePage&quot;: 0,
-    &quot;nextPage&quot;: 2,
-    &quot;isFirstPage&quot;: true,
-    &quot;isLastPage&quot;: false,
-    &quot;hasPreviousPage&quot;: false,
-    &quot;hasNextPage&quot;: true,
-    &quot;navigatePages&quot;: 8,
-    &quot;navigatepageNums&quot;: [
-        1,
-        2,
-        3
-    ],
-    &quot;navigateFirstPage&quot;: 1,
-    &quot;navigateLastPage&quot;: 3,
-    &quot;firstPage&quot;: 1,
-    &quot;lastPage&quot;: 3
-}
-</code></pre><h3 id="对比数据库，核对分页情况"><a href="#对比数据库，核对分页情况" class="headerlink" title="对比数据库，核对分页情况"></a>对比数据库，核对分页情况</h3><p><img src="https://i.imgur.com/m6MU6eu.png" alt=""></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"pageNum"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"pageSize"</span>: <span class="number">5</span>,</span><br><span class="line">    <span class="attr">"size"</span>: <span class="number">5</span>,</span><br><span class="line">    <span class="attr">"startRow"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"endRow"</span>: <span class="number">5</span>,</span><br><span class="line">    <span class="attr">"total"</span>: <span class="number">12</span>,</span><br><span class="line">    <span class="attr">"pages"</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">"list"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"id"</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"子"</span>,</span><br><span class="line">            <span class="attr">"age"</span>: <span class="number">10</span>,</span><br><span class="line">            <span class="attr">"hobby"</span>: <span class="string">"甲"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"id"</span>: <span class="number">2</span>,</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"丑"</span>,</span><br><span class="line">            <span class="attr">"age"</span>: <span class="number">11</span>,</span><br><span class="line">            <span class="attr">"hobby"</span>: <span class="string">"乙"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"id"</span>: <span class="number">3</span>,</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"寅"</span>,</span><br><span class="line">            <span class="attr">"age"</span>: <span class="number">12</span>,</span><br><span class="line">            <span class="attr">"hobby"</span>: <span class="string">"丙"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"id"</span>: <span class="number">4</span>,</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"卯"</span>,</span><br><span class="line">            <span class="attr">"age"</span>: <span class="number">13</span>,</span><br><span class="line">            <span class="attr">"hobby"</span>: <span class="string">"丁"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"id"</span>: <span class="number">5</span>,</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"辰"</span>,</span><br><span class="line">            <span class="attr">"age"</span>: <span class="number">14</span>,</span><br><span class="line">            <span class="attr">"hobby"</span>: <span class="string">"戊"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"prePage"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"nextPage"</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="attr">"isFirstPage"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"isLastPage"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">"hasPreviousPage"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">"hasNextPage"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"navigatePages"</span>: <span class="number">8</span>,</span><br><span class="line">    <span class="attr">"navigatepageNums"</span>: [</span><br><span class="line">        <span class="number">1</span>,</span><br><span class="line">        <span class="number">2</span>,</span><br><span class="line">        <span class="number">3</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"navigateFirstPage"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"navigateLastPage"</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">"firstPage"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"lastPage"</span>: <span class="number">3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="对比数据库，核对分页情况"><a href="#对比数据库，核对分页情况" class="headerlink" title="对比数据库，核对分页情况"></a>对比数据库，核对分页情况</h3><p><img src="https://i.imgur.com/m6MU6eu.png" alt=""></p>
 <h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><h3 id="完整代码结构"><a href="#完整代码结构" class="headerlink" title="完整代码结构"></a>完整代码结构</h3><p><img src="https://i.imgur.com/GGvFET5.png" alt=""></p>
 
       
