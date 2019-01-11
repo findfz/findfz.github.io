@@ -91,7 +91,7 @@
 <meta property="og:description" content="业务场景应对验证码场景，有打码平台，但是亲测第三方打码接口响应较慢时有10s以上的等待时间（正常3-4秒），对于前端用户体验并不太好，并且还有对接平台的人力成本和经济成本，有什么更好的方式呢？有。 用户首次进入页面就把目标网站的验证码抓取到前台（后台模拟打开目标网址并截取验证码），让用户自行识别， 输入验证码带上其他参数后一并提交到后端接口，进入刚才后台打开的浏览器，继续selenium模拟操作。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://www.limic.top/selenium操作多个已打开的phantomjs/postman.jpg">
-<meta property="og:updated_time" content="2019-01-11T03:50:52.943Z">
+<meta property="og:updated_time" content="2019-01-11T04:37:21.489Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="selenium操作多个已打开的phantomjs">
 <meta name="twitter:description" content="业务场景应对验证码场景，有打码平台，但是亲测第三方打码接口响应较慢时有10s以上的等待时间（正常3-4秒），对于前端用户体验并不太好，并且还有对接平台的人力成本和经济成本，有什么更好的方式呢？有。 用户首次进入页面就把目标网站的验证码抓取到前台（后台模拟打开目标网址并截取验证码），让用户自行识别， 输入验证码带上其他参数后一并提交到后端接口，进入刚才后台打开的浏览器，继续selenium模拟操作。">
@@ -366,7 +366,7 @@
 用户首次进入页面就把目标网站的验证码抓取到前台（后台模拟打开目标网址并截取验证码），让用户自行识别，
 输入验证码带上其他参数后一并提交到后端接口，进入刚才后台打开的浏览器，继续selenium模拟操作。
 </code></pre><p><strong>难点：如何知道刚才打开的浏览器是哪一个呢？</strong></p>
-<p>在CSDN找到了类似的博客，简单了解了webdriver工作原理之后，进行了相应代码的改造，具体参见<a href="">https://blog.csdn.net/wwwqjpcom/article/details/51232302</a></p>
+<p>在CSDN找到了类似的博客，简单了解了webdriver工作原理之后，进行了相应代码的改造，具体参见<a href="https://blog.csdn.net/wwwqjpcom/article/details/51232302" target="_blank" rel="noopener">重新使用已打开的浏览器</a></p>
 <h2 id="selenium-phantomjs实现"><a href="#selenium-phantomjs实现" class="headerlink" title="selenium+phantomjs实现"></a>selenium+phantomjs实现</h2><h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><h4 id="selenium-3-8-1-phantomjs-1-4-0"><a href="#selenium-3-8-1-phantomjs-1-4-0" class="headerlink" title="selenium 3.8.1 + phantomjs 1.4.0"></a>selenium 3.8.1 + phantomjs 1.4.0</h4><pre><code>&lt;!-- https://mvnrepository.com/artifact/com.codeborne/phantomjsdriver --&gt;
 &lt;dependency&gt;
     &lt;groupId&gt;com.codeborne&lt;/groupId&gt;
